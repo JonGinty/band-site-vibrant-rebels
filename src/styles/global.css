@@ -86,7 +86,8 @@ a {
 }
 
 a:focus-visible,
-button:focus-visible {
+button:focus-visible,
+summary:focus-visible {
   outline: 3px solid var(--acid-lime);
   outline-offset: 4px;
 }
@@ -1004,6 +1005,7 @@ a[data-social="facebook"] {
 .member-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
   gap: clamp(1.15rem, 3vw, 2rem);
   margin-top: 2rem;
 }
@@ -1036,7 +1038,9 @@ a[data-social="facebook"] {
 }
 
 .member-card__portrait {
+  aspect-ratio: 3 / 4;
   min-height: 260px;
+  overflow: hidden;
   border-right: 2px solid var(--night);
 }
 
@@ -1081,9 +1085,51 @@ a[data-social="facebook"] {
   padding: 1.25rem;
 }
 
-.member-card__copy > p:last-child {
-  margin-bottom: 0;
+.member-card__bio-preview,
+.member-card__bio {
   color: var(--muted);
+}
+
+.member-card__bio-preview {
+  display: -webkit-box;
+  margin-bottom: 0.7rem;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.member-card__bio-wrap:has(.member-card__details[open]) .member-card__bio-preview {
+  display: none;
+}
+
+.member-card__details summary {
+  width: fit-content;
+  cursor: pointer;
+  color: var(--night);
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.member-card__details summary::marker {
+  content: '';
+}
+
+.member-card__details summary::-webkit-details-marker {
+  display: none;
+}
+
+.member-card__details[open] summary {
+  margin-bottom: 0.7rem;
+}
+
+.member-card__details[open] summary::after {
+  content: ' (hide)';
+}
+
+.member-card__bio {
+  margin-bottom: 0;
 }
 
 .member-card__role {

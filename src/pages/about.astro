@@ -44,7 +44,13 @@ const pressPath = `${basePath}press/`;
               <div class="member-card__copy">
                 <p class="member-card__role">{member.role}</p>
                 <h3>{member.name}</h3>
-                <p>{member.bio}</p>
+                <div class="member-card__bio-wrap">
+                  <p class="member-card__bio-preview">{member.bio}</p>
+                  <details class="member-card__details">
+                    <summary>Read full bio</summary>
+                    <p class="member-card__bio">{member.bio}</p>
+                  </details>
+                </div>
               </div>
             </article>
           ))
