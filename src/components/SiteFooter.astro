@@ -1,0 +1,16 @@
+---
+const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+
+<footer>
+  <p>&copy; {new Date().getFullYear()} Vibrant Rebels</p>
+  <div>
+    <a href={`${basePath}#music`}>Music</a>
+    <a href={`${basePath}shows/`}>Shows</a>
+    <a href={`${basePath}about/`}>About</a>
+    <a href={`${basePath}gallery/`}>Gallery</a>
+    <a href={`${basePath}press/`}>Press kit</a>
+    <a href={`${basePath}links/`}>Links</a>
+    <a href={`${basePath}#contact`}>Contact</a>
+  </div>
+</footer>

@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { galleryImages } from '../data/gallery';
+
+const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+
+<BaseLayout title="Gallery | Vibrant Rebels" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+  <SiteHeader />
+
+  <main class="interior-page gallery-page">
+    <section class="page-hero page-hero--gallery" aria-labelledby="page-title">
+      <p class="eyebrow">Photos</p>
+      <h1 id="page-title">Gallery</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus.</p>
+    </section>
+
+    <section class="section gallery-section" aria-labelledby="gallery-title">
+      <h2 id="gallery-title">Live and behind the scenes</h2>
+      <div class="gallery-grid">
+        {
+          galleryImages.map((item, index) => (
+            <figure class:list={['gallery-card', index % 5 === 0 && 'gallery-card--wide']}>
+              {item.src ? (
+                <img src={`${basePath}${item.src}`} alt={item.alt} loading="lazy" />
+              ) : (
+                <div class="image-placeholder" role="img" aria-label={item.alt}>
+                  <span>{item.alt}</span>
+                </div>
+              )}
+              <figcaption>{item.caption}</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>

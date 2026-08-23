@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
 import SocialIcon from '../components/SocialIcon.astro';
 import { socialLinks } from '../data/links';
 
@@ -10,6 +12,7 @@ const homeUrl = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
 
 <BaseLayout title="Vibrant Rebels Links" description="All official Vibrant Rebels links in one place.">
+  <SiteHeader />
   <main class="links-page">
     <section class="links-hero" aria-labelledby="links-title">
       <a class="links-home" href={homeUrl}>Vibrant Rebels</a>
@@ -46,4 +49,5 @@ const homeUrl = import.meta.env.BASE_URL.replace(/\/?$/, '/');
       }
     </section>
   </main>
+  <SiteFooter />
 </BaseLayout>

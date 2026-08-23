@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { bandMembers } from '../data/members';
+
+const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const pressPath = `${basePath}press/`;
+---
+
+<BaseLayout title="About | Vibrant Rebels" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+  <SiteHeader />
+
+  <main class="interior-page about-page">
+    <section class="page-hero page-hero--about" aria-labelledby="page-title">
+      <p class="eyebrow">About the band</p>
+      <h1 id="page-title">Vibrant Rebels</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur blandit tempus porttitor.</p>
+    </section>
+
+    <section class="section band-bio" aria-labelledby="band-bio-title">
+      <div class="band-bio__heading">
+        <p class="eyebrow">Band bio</p>
+        <h2 id="band-bio-title">The full story</h2>
+      </div>
+      <div class="band-bio__copy">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas faucibus mollis interdum. Nullam quis risus eget urna mollis ornare vel eu leo. Aenean lacinia bibendum nulla sed consectetur.</p>
+        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec ullamcorper nulla non metus auctor fringilla. Cras mattis consectetur purus sit amet fermentum.</p>
+        <p>Etiam porta sem malesuada magna mollis euismod. Vestibulum id ligula porta felis euismod semper. Sed posuere consectetur est at lobortis.</p>
+        <a class="button button--secondary" href={pressPath}>Press kit</a>
+      </div>
+    </section>
+
+    <section class="section members-section" aria-labelledby="members-title">
+      <p class="eyebrow">Current line-up</p>
+      <h2 id="members-title">Meet the band</h2>
+      <div class="member-grid">
+        {
+          bandMembers.map((member, index) => (
+            <article class="member-card" id={member.slug}>
+              <figure class="member-card__portrait">
+                {member.image ? (
+                  <img src={`${basePath}${member.image}`} alt={member.name} loading="lazy" />
+                ) : (
+                  <div class="image-placeholder" role="img" aria-label={`Placeholder portrait for ${member.name}`}>
+                    <span>Photo placeholder {String(index + 1).padStart(2, '0')}</span>
+                  </div>
+                )}
+              </figure>
+              <div class="member-card__copy">
+                <p class="member-card__role">{member.role}</p>
+                <h3>{member.name}</h3>
+                <p>{member.bio}</p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>

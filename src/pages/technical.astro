@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { bandMembers } from '../data/members';
+
+const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const pressPath = `${basePath}press/`;
+const inputRows = Array.from({ length: 16 }, (_, index) => String(index + 1).padStart(2, '0'));
+---
+
+<BaseLayout title="Technical Rider | Vibrant Rebels" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+  <SiteHeader />
+
+  <main class="interior-page technical-page">
+    <section class="page-hero page-hero--technical" aria-labelledby="page-title">
+      <p class="eyebrow">For venues and production</p>
+      <h1 id="page-title">Technical rider</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</p>
+      <div class="page-hero__actions print-hidden">
+        <a class="button button--secondary" href={pressPath}>Back to the press kit</a>
+        <button class="button button--primary" type="button" data-print-page>Print / save as PDF</button>
+      </div>
+    </section>
+
+    <section class="section technical-section stage-section" aria-labelledby="stage-title">
+      <p class="eyebrow">Layout placeholder</p>
+      <h2 id="stage-title">Stage plot</h2>
+      <div class="stage-plot" aria-label="Placeholder stage plot for ten band members">
+        <p class="stage-plot__edge">REAR OF STAGE</p>
+        <div class="stage-positions">
+          {
+            bandMembers.map((member) => (
+              <div class="stage-position">
+                <span>{member.name}</span>
+                <small>{member.role}</small>
+                <em>INPUT PLACEHOLDER</em>
+              </div>
+            ))
+          }
+        </div>
+        <p class="stage-plot__front">AUDIENCE / FRONT OF STAGE</p>
+      </div>
+      <p class="technical-note">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed odio dui.</p>
+    </section>
+
+    <section class="section technical-section input-section" aria-labelledby="inputs-title">
+      <p class="eyebrow">Channel details</p>
+      <h2 id="inputs-title">Input list</h2>
+      <div class="input-table-wrap">
+        <table class="input-table">
+          <caption>INPUT LIST PLACEHOLDER</caption>
+          <thead>
+            <tr>
+              <th scope="col">Channel</th>
+              <th scope="col">Source</th>
+              <th scope="col">Mic / DI</th>
+              <th scope="col">Stand / notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              inputRows.map((channel) => (
+                <tr>
+                  <th scope="row">{channel}</th>
+                  <td>SOURCE PLACEHOLDER</td>
+                  <td>MIC / DI PLACEHOLDER</td>
+                  <td>NOTES PLACEHOLDER</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section technical-section requirements-section" aria-labelledby="requirements-title">
+      <p class="eyebrow">Production requirements</p>
+      <h2 id="requirements-title">Technical requirements</h2>
+      <div class="technical-grid">
+        <article class="technical-card">
+          <h3>Front of house</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mattis consectetur purus sit amet fermentum.</p>
+        </article>
+        <article class="technical-card">
+          <h3>Monitoring</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mattis consectetur purus sit amet fermentum.</p>
+        </article>
+        <article class="technical-card">
+          <h3>Backline</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mattis consectetur purus sit amet fermentum.</p>
+        </article>
+        <article class="technical-card">
+          <h3>Power and staging</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mattis consectetur purus sit amet fermentum.</p>
+        </article>
+        <article class="technical-card">
+          <h3>Soundcheck and timings</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mattis consectetur purus sit amet fermentum.</p>
+        </article>
+        <article class="technical-card">
+          <h3>Hospitality</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mattis consectetur purus sit amet fermentum.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section--contact" aria-labelledby="technical-contact-title">
+      <p class="eyebrow">Production contact</p>
+      <h2 id="technical-contact-title">Questions and advances</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <div class="contact-actions print-hidden">
+        <a class="button button--primary" href="mailto:info@vibrantrebels.com">info@vibrantrebels.com</a>
+        <a class="button button--secondary" href={pressPath}>Press kit</a>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter />
+
+  <script>
+    document.querySelector('[data-print-page]')?.addEventListener('click', () => window.print());
+  </script>
+</BaseLayout>

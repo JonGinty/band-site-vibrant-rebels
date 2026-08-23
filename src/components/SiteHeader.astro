@@ -1,0 +1,30 @@
+---
+const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const logoPath = `${basePath}images/vibrant-rebels-logo.png`;
+const currentPath = Astro.url.pathname;
+
+const navItems = [
+  { label: 'Music', href: `${basePath}#music` },
+  { label: 'Shows', href: `${basePath}shows/`, path: `${basePath}shows/` },
+  { label: 'About', href: `${basePath}about/`, path: `${basePath}about/` },
+  { label: 'Gallery', href: `${basePath}gallery/`, path: `${basePath}gallery/` },
+  { label: 'Contact', href: `${basePath}#contact` },
+  { label: 'Links', href: `${basePath}links/`, path: `${basePath}links/` },
+];
+---
+
+<header class="site-header">
+  <a class="brand" href={basePath} aria-label="Vibrant Rebels home">
+    <img src={logoPath} alt="" width="2040" height="1920" />
+    <span>Vibrant Rebels</span>
+  </a>
+  <nav aria-label="Main navigation">
+    {
+      navItems.map((item) => (
+        <a href={item.href} aria-current={item.path && currentPath === item.path ? 'page' : undefined}>
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
+</header>

@@ -1,0 +1,133 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+
+const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const technicalPath = `${basePath}technical/`;
+const aboutPath = `${basePath}about/`;
+const galleryPath = `${basePath}gallery/`;
+const showsPath = `${basePath}shows/`;
+const logoPath = `${basePath}images/vibrant-rebels-logo.png`;
+---
+
+<BaseLayout title="Press Kit | Vibrant Rebels" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+  <SiteHeader />
+
+  <main class="interior-page press-page">
+    <section class="page-hero page-hero--press" aria-labelledby="page-title">
+      <p class="eyebrow">For press and bookers</p>
+      <h1 id="page-title">Press kit</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</p>
+      <div class="page-hero__actions">
+        <a class="button button--primary" href="mailto:info@vibrantrebels.com">Booking contact</a>
+        <a class="button button--secondary" href={technicalPath}>Technical information</a>
+      </div>
+    </section>
+
+    <section class="section press-section press-overview" aria-labelledby="overview-title">
+      <p class="eyebrow">At a glance</p>
+      <h2 id="overview-title">Band overview</h2>
+      <dl class="press-facts">
+        <div>
+          <dt>Location</dt>
+          <dd>DETAIL PLACEHOLDER</dd>
+        </div>
+        <div>
+          <dt>Genre</dt>
+          <dd>DETAIL PLACEHOLDER</dd>
+        </div>
+        <div>
+          <dt>Line-up</dt>
+          <dd>10-piece band</dd>
+        </div>
+        <div>
+          <dt>For fans of</dt>
+          <dd>DETAIL PLACEHOLDER</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="section press-section press-bios" aria-labelledby="bios-title">
+      <p class="eyebrow">Approved copy</p>
+      <h2 id="bios-title">Band bios</h2>
+      <div class="press-bio-grid">
+        <article class="press-card">
+          <h3>Short bio</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras mattis consectetur purus sit amet fermentum. Donec sed odio dui.</p>
+        </article>
+        <article class="press-card">
+          <h3>Long bio</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas faucibus mollis interdum. Nullam id dolor id nibh ultricies vehicula ut id elit. Aenean lacinia bibendum nulla sed consectetur.</p>
+          <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec ullamcorper nulla non metus auctor fringilla.</p>
+          <a class="text-link" href={aboutPath}>Full band and member bios</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section press-section press-media" aria-labelledby="media-title">
+      <p class="eyebrow">Watch and listen</p>
+      <h2 id="media-title">Music and video</h2>
+      <div class="press-media-grid">
+        <div class="release-video">
+          <iframe
+            src="https://www.youtube-nocookie.com/embed/gyAeMGh_rvI?si=HH85X2CPujSw1A-R"
+            title="Higher and Fresher by Vibrant Rebels"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        </div>
+        <div class="press-link-stack">
+          <a class="resource-card" href="https://open.spotify.com/artist/1BHgPpsXuUASHiCFCSLW0V" target="_blank" rel="noreferrer">
+            <strong>Spotify</strong>
+            <span>Lorem ipsum dolor sit amet.</span>
+          </a>
+          <a class="resource-card" href="https://www.youtube.com/@VibrantRebelsBand" target="_blank" rel="noreferrer">
+            <strong>YouTube</strong>
+            <span>Lorem ipsum dolor sit amet.</span>
+          </a>
+          <a class="resource-card" href={showsPath}>
+            <strong>Live dates</strong>
+            <span>Lorem ipsum dolor sit amet.</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section press-section press-downloads" aria-labelledby="downloads-title">
+      <p class="eyebrow">Assets and documents</p>
+      <h2 id="downloads-title">Downloads</h2>
+      <div class="resource-grid">
+        <a class="resource-card" href={galleryPath}>
+          <strong>Press photos</strong>
+          <span>Lorem ipsum dolor sit amet.</span>
+        </a>
+        <a class="resource-card" href={logoPath} download="vibrant-rebels-logo.png">
+          <strong>Band logo</strong>
+          <span>PNG · DOWNLOAD</span>
+        </a>
+        <a class="resource-card" href={technicalPath}>
+          <strong>Stage plot and technical rider</strong>
+          <span>Lorem ipsum dolor sit amet.</span>
+        </a>
+        <div class="resource-card resource-card--placeholder" aria-label="One-sheet PDF placeholder">
+          <strong>One-sheet PDF</strong>
+          <span>DOWNLOAD PLACEHOLDER</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--contact" aria-labelledby="press-contact-title">
+      <p class="eyebrow">Press and bookings</p>
+      <h2 id="press-contact-title">Contact</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      <div class="contact-actions">
+        <a class="button button--primary" href="mailto:info@vibrantrebels.com">info@vibrantrebels.com</a>
+        <a class="button button--secondary" href={technicalPath}>Technical information</a>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>
