@@ -132,9 +132,10 @@ const hasShowTooltip = (detail: ShowDisplayItem) => Boolean(detail.tooltip);
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero__content">
         <p class="eyebrow">Your favourite new sound</p>
-        <h1 id="hero-title">Vibrant Rebels</h1>
+        <h1 id="hero-title" class="sr-only">Vibrant Rebels</h1>
+        <img class="hero__logo" src={logoPath} alt="" width="2040" height="1920" />
         <p>
-          High energy blend of hip hop, pop, ska and funk, dual lead singers and rappers backed by horns, keys and percussion, and a full rock band!
+          A high-energy blend of hip hop, pop, ska and funk, with dual lead singers and rappers backed by horns, keys and percussion, and a full rock band!
         </p>
         <blockquote class="quote">
           <p class="quote-text">Perfect Festival Music!</p>
@@ -156,9 +157,6 @@ const hasShowTooltip = (detail: ShowDisplayItem) => Boolean(detail.tooltip);
           <a class="social-strip__all" href={linksPath}>All links</a>
         </div>
       </div>
-      <div class="hero__mark" aria-hidden="true">
-        <img src={logoPath} alt="" width="2040" height="1920" />
-      </div>
     </section>
 
     <section class="section section--split" id="music" aria-labelledby="music-title">
@@ -166,7 +164,7 @@ const hasShowTooltip = (detail: ShowDisplayItem) => Boolean(detail.tooltip);
         <p class="eyebrow">Latest release</p>
         <h2 id="music-title">Higher and Fresher</h2>
         <p>
-          Live from ToneGarden studios in Summerhall, Edinburgh, as part of a set of live recordings made in Spring 2026!
+          Live from ToneGarden Studios in Summerhall, Edinburgh, as part of a set of live recordings made in Spring 2026!
         </p>
       </div>
       <div class="release-video">
@@ -188,7 +186,7 @@ const hasShowTooltip = (detail: ShowDisplayItem) => Boolean(detail.tooltip);
       data-show-buffer-days={showBufferDays}
     >
       <p class="eyebrow">Tour dates</p>
-      <h2 id="shows-title">Upcoming Shows</h2>
+      <h2 id="shows-title">Upcoming shows</h2>
       <div class="show-group" data-show-group="upcoming">
         <div class="show-list" data-show-list="upcoming">
           {
@@ -205,7 +203,6 @@ const hasShowTooltip = (detail: ShowDisplayItem) => Boolean(detail.tooltip);
                         {title.label}
                         {hasShowTooltip(title) && (
                           <>
-                            <span class="show__info" aria-hidden="true">i</span>
                             <span class="show__tooltip" role="tooltip">{title.tooltip}</span>
                           </>
                         )}
@@ -220,7 +217,6 @@ const hasShowTooltip = (detail: ShowDisplayItem) => Boolean(detail.tooltip);
                               {detail.label}
                               {hasShowTooltip(detail) && (
                                 <>
-                                  <span class="show__info" aria-hidden="true">i</span>
                                   <span class="show__tooltip" role="tooltip">{detail.tooltip}</span>
                                 </>
                               )}
@@ -248,7 +244,7 @@ const hasShowTooltip = (detail: ShowDisplayItem) => Boolean(detail.tooltip);
       </div>
 
       <div class="show-group" data-show-group="past" hidden={pastShows.length === 0}>
-        <h3>Past Shows</h3>
+        <h3>Past shows</h3>
         <div class="show-list" data-show-list="past">
           {
             pastShows.map((show) => {
@@ -264,7 +260,6 @@ const hasShowTooltip = (detail: ShowDisplayItem) => Boolean(detail.tooltip);
                         {title.label}
                         {hasShowTooltip(title) && (
                           <>
-                            <span class="show__info" aria-hidden="true">i</span>
                             <span class="show__tooltip" role="tooltip">{title.tooltip}</span>
                           </>
                         )}
@@ -279,7 +274,6 @@ const hasShowTooltip = (detail: ShowDisplayItem) => Boolean(detail.tooltip);
                               {detail.label}
                               {hasShowTooltip(detail) && (
                                 <>
-                                  <span class="show__info" aria-hidden="true">i</span>
                                   <span class="show__tooltip" role="tooltip">{detail.tooltip}</span>
                                 </>
                               )}
@@ -309,14 +303,14 @@ const hasShowTooltip = (detail: ShowDisplayItem) => Boolean(detail.tooltip);
       </div>
       <p>
         Vibrant Rebels started as late-night demos and borrowed practice rooms. The songs are sharp, melodic,
-        and made for people who like their indie rock direct, colorful, and a little unruly.
+        and made for people who like their indie rock direct, colourful, and a little unruly.
       </p>
     </section>
 
     <section class="section section--contact" id="contact" aria-labelledby="contact-title">
       <p class="eyebrow">Bookings and updates</p>
       <h2 id="contact-title">Stay in the loop</h2>
-      <p>For booking, press, and mailing list updates, drop us a line.</p>
+      <p>For bookings, press, and mailing list updates, drop us a line.</p>
       <div class="contact-actions">
         <a class="button button--primary" href="mailto:info@vibrantrebels.com">info@vibrantrebels.com</a>
         <a class="button button--secondary" href={linksPath}>All official links</a>
