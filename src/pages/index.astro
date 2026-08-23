@@ -1,0 +1,325 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const navItems = ['Music', 'Shows', 'About', 'Contact'];
+const showBufferDays = 1;
+type Show = {
+  date: string;
+  event?: string;
+  city: string;
+  venue?: string;
+  region?: string;
+  address?: string;
+  ticketUrl?: string;
+  doorPrice?: string;
+};
+
+const shows: Show[] = [
+  {
+    date: '2026-04-30',
+    city: 'Edinburgh',
+    venue: 'Leith Arches',
+  },
+  {
+    date: '2026-06-06',
+    city: 'East Linton',
+    venue: 'East Linton Town Hall',
+    doorPrice: '£7 on the door',
+  },
+  {
+    date: '2026-06-15',
+    event: 'Eden Festival',
+    city: 'Moffat',
+  },
+  {
+    date: '2026-07-25',
+    city: 'Kirkcudbright',
+    venue: 'Kirkcudbright Harbour',
+  },
+  {
+    date: '2026-08-21',
+    city: 'Edinburgh',
+    venue: 'The Biscuit Factory'
+  },
+  {
+    date: '2026-09-26',
+    event: 'Dunbar Music Festival',
+    city: 'Dunbar',
+    venue: 'The Royal British Legion',
+    region: 'East Lothian, South East Scotland, UK',
+    address: 'The Royal British Legion, 147 High Street, Dunbar, Scotland, EH42 1ES',
+    ticketUrl: 'https://www.dunbarmusicfestival.co.uk/programme/vibrant-rebels'
+  },
+  {
+    date: '2026-10-31',
+    event: 'Moray Fest',
+    city: 'Fochabers',
+    region: 'Moray, North East Scotland, UK',
+    venue: 'Inchberry Hall'
+  }
+];
+
+const dateFormatter = new Intl.DateTimeFormat('en-GB', {
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric',
+});
+const now = new Date();
+const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+const upcomingCutoff = new Date(today);
+upcomingCutoff.setDate(today.getDate() - showBufferDays);
+
+const getShowDate = (date: string) => new Date(`${date}T00:00:00`);
+const sortUpcomingShows = (first: Show, second: Show) =>
+  getShowDate(first.date).getTime() - getShowDate(second.date).getTime();
+const sortPastShows = (first: Show, second: Show) =>
+  getShowDate(second.date).getTime() - getShowDate(first.date).getTime();
+// Static fallback: this split is rendered at publish/build time for no-JS visitors.
+const upcomingShows = shows.filter((show) => getShowDate(show.date) >= upcomingCutoff).sort(sortUpcomingShows);
+const pastShows = shows.filter((show) => getShowDate(show.date) < upcomingCutoff).sort(sortPastShows);
+type ShowDisplayItem = {
+  label: string;
+  tooltip?: string;
+};
+
+const getShowTitle = (show: Show): ShowDisplayItem => ({
+  label: show.event || show.city,
+  tooltip: !show.event && show.region ? show.region : !show.venue ? show.address : undefined,
+});
+const getShowDetails = (show: Show): ShowDisplayItem[] => {
+  const details: ShowDisplayItem[] = [];
+
+  if (show.event) {
+    details.push({ label: show.city, tooltip: show.region });
+  }
+
+  if (show.venue) {
+    details.push({ label: show.venue, tooltip: show.address });
+  }
+
+  return details;
+};
+---
+
+<BaseLayout>
+  <header class="site-header">
+    <a class="brand" href={import.meta.env.BASE_URL}>Vibrant Rebels</a>
+      <nav aria-label="Main navigation">
+        {
+          navItems.map((item) => (
+            <a href={`#${item.toLowerCase()}`}>{item}</a>
+          ))
+        }
+      </nav>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__content">
+        <p class="eyebrow">New sounds from the underground</p>
+        <h1 id="hero-title">Vibrant Rebels</h1>
+        <p>
+          Bright hooks, loud hearts, and songs built for the rooms where everyone sings the last chorus back.
+        </p>
+        <div class="hero__actions">
+          <a class="button button--primary" href="#music">Listen now</a>
+          <a class="button button--secondary" href="#shows">Upcoming shows</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--split" id="music" aria-labelledby="music-title">
+      <div>
+        <p class="eyebrow">Latest release</p>
+        <h2 id="music-title">Electric Hearts</h2>
+        <p>
+          The first single from Vibrant Rebels pairs jangly guitars with a driving rhythm section and a chorus
+          that refuses to sit still.
+        </p>
+      </div>
+      <div class="release-card" aria-label="Electric Hearts release artwork placeholder">
+        <span>VR</span>
+        <strong>Electric Hearts</strong>
+        <small>Single out now</small>
+      </div>
+    </section>
+
+    <section
+      class="section"
+      id="shows"
+      aria-labelledby="shows-title"
+      data-shows
+      data-show-buffer-days={showBufferDays}
+    >
+      <p class="eyebrow">Tour dates</p>
+      <h2 id="shows-title">Upcoming Shows</h2>
+      <div class="show-group" data-show-group="upcoming">
+        <div class="show-list" data-show-list="upcoming">
+          {
+            upcomingShows.map((show) => (
+              <article class="show" data-show-card data-show-date={show.date}>
+                <time datetime={show.date}>{dateFormatter.format(getShowDate(show.date))}</time>
+                <div>
+                  <h3>
+                    <span class:list={['show__detail', getShowTitle(show).tooltip && 'show__detail--tooltip']} tabindex={getShowTitle(show).tooltip ? '0' : undefined}>
+                      {getShowTitle(show).label}
+                      {getShowTitle(show).tooltip && (
+                        <>
+                          <span class="show__info" aria-hidden="true">i</span>
+                          <span class="show__tooltip" role="tooltip">{getShowTitle(show).tooltip}</span>
+                        </>
+                      )}
+                    </span>
+                  </h3>
+                  {getShowDetails(show).length > 0 && (
+                    <p>
+                      {getShowDetails(show).map((detail, index) => (
+                        <>
+                          {index > 0 && <span class="show__separator"> · </span>}
+                          <span class:list={['show__detail', detail.tooltip && 'show__detail--tooltip']} tabindex={detail.tooltip ? '0' : undefined}>
+                            {detail.label}
+                            {detail.tooltip && (
+                              <>
+                                <span class="show__info" aria-hidden="true">i</span>
+                                <span class="show__tooltip" role="tooltip">{detail.tooltip}</span>
+                              </>
+                            )}
+                          </span>
+                        </>
+                      ))}
+                    </p>
+                  )}
+                </div>
+                {(show.ticketUrl || show.doorPrice) && (
+                  <div class="show__actions">
+                    {show.ticketUrl && <a href={show.ticketUrl}>Tickets</a>}
+                    {show.doorPrice && <span>{show.doorPrice}</span>}
+                  </div>
+                )}
+              </article>
+            ))
+          }
+        </div>
+        <p class="show-empty" data-show-empty="upcoming" hidden={upcomingShows.length > 0}>
+          No upcoming shows announced yet.
+        </p>
+      </div>
+
+      <div class="show-group" data-show-group="past" hidden={pastShows.length === 0}>
+        <h3>Past Shows</h3>
+        <div class="show-list" data-show-list="past">
+          {
+            pastShows.map((show) => (
+              <article class="show show--past" data-show-card data-show-date={show.date}>
+                <time datetime={show.date}>{dateFormatter.format(getShowDate(show.date))}</time>
+                <div>
+                  <h3>
+                    <span class:list={['show__detail', getShowTitle(show).tooltip && 'show__detail--tooltip']} tabindex={getShowTitle(show).tooltip ? '0' : undefined}>
+                      {getShowTitle(show).label}
+                      {getShowTitle(show).tooltip && (
+                        <>
+                          <span class="show__info" aria-hidden="true">i</span>
+                          <span class="show__tooltip" role="tooltip">{getShowTitle(show).tooltip}</span>
+                        </>
+                      )}
+                    </span>
+                  </h3>
+                  {getShowDetails(show).length > 0 && (
+                    <p>
+                      {getShowDetails(show).map((detail, index) => (
+                        <>
+                          {index > 0 && <span class="show__separator"> · </span>}
+                          <span class:list={['show__detail', detail.tooltip && 'show__detail--tooltip']} tabindex={detail.tooltip ? '0' : undefined}>
+                            {detail.label}
+                            {detail.tooltip && (
+                              <>
+                                <span class="show__info" aria-hidden="true">i</span>
+                                <span class="show__tooltip" role="tooltip">{detail.tooltip}</span>
+                              </>
+                            )}
+                          </span>
+                        </>
+                      ))}
+                    </p>
+                  )}
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--split" id="about" aria-labelledby="about-title">
+      <div>
+        <p class="eyebrow">About the band</p>
+        <h2 id="about-title">Noise with a pulse</h2>
+      </div>
+      <p>
+        Vibrant Rebels started as late-night demos and borrowed practice rooms. The songs are sharp, melodic,
+        and made for people who like their indie rock direct, colorful, and a little unruly.
+      </p>
+    </section>
+
+    <section class="section section--contact" id="contact" aria-labelledby="contact-title">
+      <p class="eyebrow">Bookings and updates</p>
+      <h2 id="contact-title">Stay in the loop</h2>
+      <p>For booking, press, and mailing list updates, drop us a line.</p>
+      <a class="button button--primary" href="mailto:hello@vibrantrebels.com">hello@vibrantrebels.com</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; {new Date().getFullYear()} Vibrant Rebels</p>
+    <div>
+      <a href="#music">Music</a>
+      <a href="#shows">Shows</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    const showsRoot = document.querySelector<HTMLElement>('[data-shows]');
+
+    if (showsRoot) {
+      const bufferDays = Number(showsRoot.getAttribute('data-show-buffer-days') || '1');
+      const upcomingList = showsRoot.querySelector<HTMLElement>('[data-show-list="upcoming"]');
+      const pastList = showsRoot.querySelector<HTMLElement>('[data-show-list="past"]');
+      const upcomingGroup = showsRoot.querySelector<HTMLElement>('[data-show-group="upcoming"]');
+      const pastGroup = showsRoot.querySelector<HTMLElement>('[data-show-group="past"]');
+      const upcomingEmpty = showsRoot.querySelector<HTMLElement>('[data-show-empty="upcoming"]');
+      const today = new Date();
+      const cutoff = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+
+      cutoff.setDate(cutoff.getDate() - bufferDays);
+
+      const getCardDate = (card: Element) => new Date(`${card.getAttribute('data-show-date')}T00:00:00`).getTime();
+      const cards = Array.from(showsRoot.querySelectorAll('[data-show-card]'));
+      const upcomingCards = cards
+        .filter((card) => getCardDate(card) >= cutoff.getTime())
+        .sort((first, second) => getCardDate(first) - getCardDate(second));
+      const pastCards = cards
+        .filter((card) => getCardDate(card) < cutoff.getTime())
+        .sort((first, second) => getCardDate(second) - getCardDate(first));
+
+      upcomingCards.forEach((card) => upcomingList?.append(card));
+      pastCards.forEach((card) => {
+        card.classList.add('show--past');
+        card.querySelector('.show__actions')?.remove();
+        pastList?.append(card);
+      });
+
+      if (upcomingGroup) {
+        upcomingGroup.hidden = false;
+      }
+
+      if (pastGroup) {
+        pastGroup.hidden = pastCards.length === 0;
+      }
+
+      if (upcomingEmpty) {
+        upcomingEmpty.hidden = upcomingCards.length > 0;
+      }
+    }
+  </script>
+</BaseLayout>
