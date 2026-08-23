@@ -1,8 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SocialIcon from '../components/SocialIcon.astro';
+import { socialLinks } from '../data/links';
 
 const navItems = ['Music', 'Shows', 'About', 'Contact'];
+const featuredSocialLinks = socialLinks.filter((link) => link.featured);
 const showBufferDays = 1;
+const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const logoPath = `${basePath}images/vibrant-rebels-logo.png`;
+const linksPath = `${basePath}links/`;
 type Show = {
   date: string;
   event?: string;
@@ -10,6 +16,7 @@ type Show = {
   venue?: string;
   region?: string;
   address?: string;
+  website?: string;
   ticketUrl?: string;
   doorPrice?: string;
 };
@@ -29,6 +36,7 @@ const shows: Show[] = [
   {
     date: '2026-06-15',
     event: 'Eden Festival',
+    website: 'https://edenfestival.co.uk/',
     city: 'Moffat',
   },
   {
@@ -48,6 +56,7 @@ const shows: Show[] = [
     venue: 'The Royal British Legion',
     region: 'East Lothian, South East Scotland, UK',
     address: 'The Royal British Legion, 147 High Street, Dunbar, Scotland, EH42 1ES',
+    website: 'https://www.dunbarmusicfestival.co.uk/',
     ticketUrl: 'https://www.dunbarmusicfestival.co.uk/programme/vibrant-rebels'
   },
   {
@@ -99,48 +108,75 @@ const getShowDetails = (show: Show): ShowDisplayItem[] => {
 
   return details;
 };
+
+const hasShowTooltip = (detail: ShowDisplayItem) => Boolean(detail.tooltip);
 ---
 
 <BaseLayout>
   <header class="site-header">
-    <a class="brand" href={import.meta.env.BASE_URL}>Vibrant Rebels</a>
+    <a class="brand" href={basePath} aria-label="Vibrant Rebels home">
+      <img src={logoPath} alt="" width="2040" height="1920" />
+      <span>Vibrant Rebels</span>
+    </a>
       <nav aria-label="Main navigation">
         {
           navItems.map((item) => (
             <a href={`#${item.toLowerCase()}`}>{item}</a>
           ))
         }
+        <a href={linksPath}>Links</a>
       </nav>
   </header>
 
   <main>
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero__content">
-        <p class="eyebrow">New sounds from the underground</p>
+        <p class="eyebrow">Your favourite new sound</p>
         <h1 id="hero-title">Vibrant Rebels</h1>
         <p>
-          Bright hooks, loud hearts, and songs built for the rooms where everyone sings the last chorus back.
+          High energy blend of hip hop, pop, ska and funk, dual lead singers and rappers backed by horns, keys and percussion, and a full rock band!
         </p>
+        <blockquote class="quote">
+          <p class="quote-text">Perfect Festival Music!</p>
+          <cite class="quote-author">Mark Mghee</cite>
+        </blockquote>
         <div class="hero__actions">
           <a class="button button--primary" href="#music">Listen now</a>
           <a class="button button--secondary" href="#shows">Upcoming shows</a>
         </div>
+        <div class="social-strip" aria-label="Featured social links">
+          {
+            featuredSocialLinks.map((link) => (
+              <a href={link.href} target="_blank" rel="noreferrer" aria-label={link.handle ? `${link.label} ${link.handle}` : link.label} title={link.handle ? `${link.label} ${link.handle}` : link.label}>
+                <SocialIcon icon={link.icon} title={link.label} />
+                <span class="sr-only">{link.label}</span>
+              </a>
+            ))
+          }
+          <a class="social-strip__all" href={linksPath}>All links</a>
+        </div>
+      </div>
+      <div class="hero__mark" aria-hidden="true">
+        <img src={logoPath} alt="" width="2040" height="1920" />
       </div>
     </section>
 
     <section class="section section--split" id="music" aria-labelledby="music-title">
       <div>
         <p class="eyebrow">Latest release</p>
-        <h2 id="music-title">Electric Hearts</h2>
+        <h2 id="music-title">Higher and Fresher</h2>
         <p>
-          The first single from Vibrant Rebels pairs jangly guitars with a driving rhythm section and a chorus
-          that refuses to sit still.
+          Live from ToneGarden studios in Summerhall, Edinburgh, as part of a set of live recordings made in Spring 2026!
         </p>
       </div>
-      <div class="release-card" aria-label="Electric Hearts release artwork placeholder">
-        <span>VR</span>
-        <strong>Electric Hearts</strong>
-        <small>Single out now</small>
+      <div class="release-video">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/gyAeMGh_rvI?si=HH85X2CPujSw1A-R"
+          title="Higher and Fresher by Vibrant Rebels"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
       </div>
     </section>
 
@@ -156,48 +192,54 @@ const getShowDetails = (show: Show): ShowDisplayItem[] => {
       <div class="show-group" data-show-group="upcoming">
         <div class="show-list" data-show-list="upcoming">
           {
-            upcomingShows.map((show) => (
-              <article class="show" data-show-card data-show-date={show.date}>
-                <time datetime={show.date}>{dateFormatter.format(getShowDate(show.date))}</time>
-                <div>
-                  <h3>
-                    <span class:list={['show__detail', getShowTitle(show).tooltip && 'show__detail--tooltip']} tabindex={getShowTitle(show).tooltip ? '0' : undefined}>
-                      {getShowTitle(show).label}
-                      {getShowTitle(show).tooltip && (
-                        <>
-                          <span class="show__info" aria-hidden="true">i</span>
-                          <span class="show__tooltip" role="tooltip">{getShowTitle(show).tooltip}</span>
-                        </>
-                      )}
-                    </span>
-                  </h3>
-                  {getShowDetails(show).length > 0 && (
-                    <p>
-                      {getShowDetails(show).map((detail, index) => (
-                        <>
-                          {index > 0 && <span class="show__separator"> · </span>}
-                          <span class:list={['show__detail', detail.tooltip && 'show__detail--tooltip']} tabindex={detail.tooltip ? '0' : undefined}>
-                            {detail.label}
-                            {detail.tooltip && (
-                              <>
-                                <span class="show__info" aria-hidden="true">i</span>
-                                <span class="show__tooltip" role="tooltip">{detail.tooltip}</span>
-                              </>
-                            )}
-                          </span>
-                        </>
-                      ))}
-                    </p>
-                  )}
-                </div>
-                {(show.ticketUrl || show.doorPrice) && (
-                  <div class="show__actions">
-                    {show.ticketUrl && <a href={show.ticketUrl}>Tickets</a>}
-                    {show.doorPrice && <span>{show.doorPrice}</span>}
+            upcomingShows.map((show) => {
+              const title = getShowTitle(show);
+              const details = getShowDetails(show);
+
+              return (
+                <article class="show" data-show-card data-show-date={show.date}>
+                  <time datetime={show.date}>{dateFormatter.format(getShowDate(show.date))}</time>
+                  <div>
+                    <h3>
+                      <span class:list={['show__detail', hasShowTooltip(title) && 'show__detail--tooltip']} tabindex={hasShowTooltip(title) ? '0' : undefined}>
+                        {title.label}
+                        {hasShowTooltip(title) && (
+                          <>
+                            <span class="show__info" aria-hidden="true">i</span>
+                            <span class="show__tooltip" role="tooltip">{title.tooltip}</span>
+                          </>
+                        )}
+                      </span>
+                    </h3>
+                    {details.length > 0 && (
+                      <p>
+                        {details.map((detail, index) => (
+                          <>
+                            {index > 0 && <span class="show__separator"> · </span>}
+                            <span class:list={['show__detail', hasShowTooltip(detail) && 'show__detail--tooltip']} tabindex={hasShowTooltip(detail) ? '0' : undefined}>
+                              {detail.label}
+                              {hasShowTooltip(detail) && (
+                                <>
+                                  <span class="show__info" aria-hidden="true">i</span>
+                                  <span class="show__tooltip" role="tooltip">{detail.tooltip}</span>
+                                </>
+                              )}
+                            </span>
+                          </>
+                        ))}
+                      </p>
+                    )}
                   </div>
-                )}
-              </article>
-            ))
+                  {(show.website || show.ticketUrl || show.doorPrice) && (
+                    <div class="show__actions">
+                      {show.website && <a href={show.website} target="_blank" rel="noreferrer">Info</a>}
+                      {show.ticketUrl && <a href={show.ticketUrl} data-hide-past>Tickets</a>}
+                      {show.doorPrice && <span data-hide-past>{show.doorPrice}</span>}
+                    </div>
+                  )}
+                </article>
+              );
+            })
           }
         </div>
         <p class="show-empty" data-show-empty="upcoming" hidden={upcomingShows.length > 0}>
@@ -209,42 +251,52 @@ const getShowDetails = (show: Show): ShowDisplayItem[] => {
         <h3>Past Shows</h3>
         <div class="show-list" data-show-list="past">
           {
-            pastShows.map((show) => (
-              <article class="show show--past" data-show-card data-show-date={show.date}>
-                <time datetime={show.date}>{dateFormatter.format(getShowDate(show.date))}</time>
-                <div>
-                  <h3>
-                    <span class:list={['show__detail', getShowTitle(show).tooltip && 'show__detail--tooltip']} tabindex={getShowTitle(show).tooltip ? '0' : undefined}>
-                      {getShowTitle(show).label}
-                      {getShowTitle(show).tooltip && (
-                        <>
-                          <span class="show__info" aria-hidden="true">i</span>
-                          <span class="show__tooltip" role="tooltip">{getShowTitle(show).tooltip}</span>
-                        </>
-                      )}
-                    </span>
-                  </h3>
-                  {getShowDetails(show).length > 0 && (
-                    <p>
-                      {getShowDetails(show).map((detail, index) => (
-                        <>
-                          {index > 0 && <span class="show__separator"> · </span>}
-                          <span class:list={['show__detail', detail.tooltip && 'show__detail--tooltip']} tabindex={detail.tooltip ? '0' : undefined}>
-                            {detail.label}
-                            {detail.tooltip && (
-                              <>
-                                <span class="show__info" aria-hidden="true">i</span>
-                                <span class="show__tooltip" role="tooltip">{detail.tooltip}</span>
-                              </>
-                            )}
-                          </span>
-                        </>
-                      ))}
-                    </p>
+            pastShows.map((show) => {
+              const title = getShowTitle(show);
+              const details = getShowDetails(show);
+
+              return (
+                <article class="show show--past" data-show-card data-show-date={show.date}>
+                  <time datetime={show.date}>{dateFormatter.format(getShowDate(show.date))}</time>
+                  <div>
+                    <h3>
+                      <span class:list={['show__detail', hasShowTooltip(title) && 'show__detail--tooltip']} tabindex={hasShowTooltip(title) ? '0' : undefined}>
+                        {title.label}
+                        {hasShowTooltip(title) && (
+                          <>
+                            <span class="show__info" aria-hidden="true">i</span>
+                            <span class="show__tooltip" role="tooltip">{title.tooltip}</span>
+                          </>
+                        )}
+                      </span>
+                    </h3>
+                    {details.length > 0 && (
+                      <p>
+                        {details.map((detail, index) => (
+                          <>
+                            {index > 0 && <span class="show__separator"> · </span>}
+                            <span class:list={['show__detail', hasShowTooltip(detail) && 'show__detail--tooltip']} tabindex={hasShowTooltip(detail) ? '0' : undefined}>
+                              {detail.label}
+                              {hasShowTooltip(detail) && (
+                                <>
+                                  <span class="show__info" aria-hidden="true">i</span>
+                                  <span class="show__tooltip" role="tooltip">{detail.tooltip}</span>
+                                </>
+                              )}
+                            </span>
+                          </>
+                        ))}
+                      </p>
+                    )}
+                  </div>
+                  {show.website && (
+                    <div class="show__actions">
+                      <a href={show.website} target="_blank" rel="noreferrer">Info</a>
+                    </div>
                   )}
-                </div>
-              </article>
-            ))
+                </article>
+              );
+            })
           }
         </div>
       </div>
@@ -265,7 +317,10 @@ const getShowDetails = (show: Show): ShowDisplayItem[] => {
       <p class="eyebrow">Bookings and updates</p>
       <h2 id="contact-title">Stay in the loop</h2>
       <p>For booking, press, and mailing list updates, drop us a line.</p>
-      <a class="button button--primary" href="mailto:hello@vibrantrebels.com">hello@vibrantrebels.com</a>
+      <div class="contact-actions">
+        <a class="button button--primary" href="mailto:info@vibrantrebels.com">info@vibrantrebels.com</a>
+        <a class="button button--secondary" href={linksPath}>All official links</a>
+      </div>
     </section>
   </main>
 
@@ -274,6 +329,7 @@ const getShowDetails = (show: Show): ShowDisplayItem[] => {
     <div>
       <a href="#music">Music</a>
       <a href="#shows">Shows</a>
+      <a href={linksPath}>Links</a>
       <a href="#contact">Contact</a>
     </div>
   </footer>
@@ -305,7 +361,11 @@ const getShowDetails = (show: Show): ShowDisplayItem[] => {
       upcomingCards.forEach((card) => upcomingList?.append(card));
       pastCards.forEach((card) => {
         card.classList.add('show--past');
-        card.querySelector('.show__actions')?.remove();
+        card.querySelectorAll('[data-hide-past]').forEach((element) => element.remove());
+        const actions = card.querySelector('.show__actions');
+        if (actions && actions.children.length === 0) {
+          actions.remove();
+        }
         pastList?.append(card);
       });
 

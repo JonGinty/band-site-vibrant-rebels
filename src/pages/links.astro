@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SocialIcon from '../components/SocialIcon.astro';
+import { socialLinks } from '../data/links';
+
+const featuredLinks = socialLinks.filter((link) => link.featured);
+const otherLinks = socialLinks.filter((link) => !link.featured);
+const homeUrl = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+
+<BaseLayout title="Vibrant Rebels Links" description="All official Vibrant Rebels links in one place.">
+  <main class="links-page">
+    <section class="links-hero" aria-labelledby="links-title">
+      <a class="links-home" href={homeUrl}>Vibrant Rebels</a>
+      <p class="eyebrow">Official links</p>
+      <h1 id="links-title">Vibrant Rebels</h1>
+      <p>Music, shows, videos, photos, bookings, and band updates in one place.</p>
+    </section>
+
+    <section class="links-stack" aria-label="Featured links">
+      {
+        featuredLinks.map((link) => (
+          <a class="link-card link-card--featured" href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noreferrer' : undefined}>
+            <span>
+              <strong><SocialIcon icon={link.icon} title={link.label} />{link.label}</strong>
+              {link.handle && <small>{link.handle}</small>}
+            </span>
+            <em>{link.description}</em>
+          </a>
+        ))
+      }
+    </section>
+
+    <section class="links-stack links-stack--secondary" aria-label="More links">
+      {
+        otherLinks.map((link) => (
+          <a class="link-card" href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noreferrer' : undefined}>
+            <span>
+              <strong><SocialIcon icon={link.icon} title={link.label} />{link.label}</strong>
+              {link.handle && <small>{link.handle}</small>}
+            </span>
+            <em>{link.description}</em>
+          </a>
+        ))
+      }
+    </section>
+  </main>
+</BaseLayout>

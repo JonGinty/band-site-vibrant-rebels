@@ -2,6 +2,9 @@
 import '../styles/global.css';
 
 const { title = 'Vibrant Rebels', description = 'Vibrant Rebels are an independent band making bright, restless guitar music.' } = Astro.props;
+const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const logoPath = `${basePath}images/vibrant-rebels-logo.png`;
+const faviconPath = `${basePath}favicon.svg`;
 ---
 
 <!doctype html>
@@ -12,8 +15,9 @@ const { title = 'Vibrant Rebels', description = 'Vibrant Rebels are an independe
     <meta name="viewport" content="width=device-width" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={logoPath} />
     <meta property="og:type" content="website" />
-    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+    <link rel="icon" type="image/svg+xml" href={faviconPath} />
     <title>{title}</title>
   </head>
   <body>
