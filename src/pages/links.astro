@@ -5,6 +5,7 @@ import { socialLinks } from '../data/links';
 
 const featuredLinks = socialLinks.filter((link) => link.featured);
 const otherLinks = socialLinks.filter((link) => !link.featured);
+const getSocialSlug = (label: string) => label.toLowerCase().replace(/\s+/g, '-');
 const homeUrl = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
 
@@ -20,7 +21,7 @@ const homeUrl = import.meta.env.BASE_URL.replace(/\/?$/, '/');
     <section class="links-stack" aria-label="Featured links">
       {
         featuredLinks.map((link) => (
-          <a class="link-card link-card--featured" href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noreferrer' : undefined}>
+          <a class="link-card link-card--featured" href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noreferrer' : undefined} data-social={getSocialSlug(link.label)}>
             <span>
               <strong><SocialIcon icon={link.icon} title={link.label} />{link.label}</strong>
               {link.handle && <small>{link.handle}</small>}
@@ -34,7 +35,7 @@ const homeUrl = import.meta.env.BASE_URL.replace(/\/?$/, '/');
     <section class="links-stack links-stack--secondary" aria-label="More links">
       {
         otherLinks.map((link) => (
-          <a class="link-card" href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noreferrer' : undefined}>
+          <a class="link-card" href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noreferrer' : undefined} data-social={getSocialSlug(link.label)}>
             <span>
               <strong><SocialIcon icon={link.icon} title={link.label} />{link.label}</strong>
               {link.handle && <small>{link.handle}</small>}

@@ -5,6 +5,7 @@ import { socialLinks } from '../data/links';
 
 const navItems = ['Music', 'Shows', 'About', 'Contact'];
 const featuredSocialLinks = socialLinks.filter((link) => link.featured);
+const getSocialSlug = (label: string) => label.toLowerCase().replace(/\s+/g, '-');
 const showBufferDays = 1;
 const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const logoPath = `${basePath}images/vibrant-rebels-logo.png`;
@@ -133,7 +134,9 @@ const hasShowTooltip = (detail: ShowDisplayItem) => Boolean(detail.tooltip);
       <div class="hero__content">
         <p class="eyebrow">Your favourite new sound</p>
         <h1 id="hero-title" class="sr-only">Vibrant Rebels</h1>
-        <img class="hero__logo" src={logoPath} alt="" width="2040" height="1920" />
+        <div class="hero__logo-poster" aria-hidden="true">
+          <img class="hero__logo" src={logoPath} alt="" width="2040" height="1920" />
+        </div>
         <p>
           A high-energy blend of hip hop, pop, ska and funk, with dual lead singers and rappers backed by horns, keys and percussion, and a full rock band!
         </p>
@@ -148,7 +151,7 @@ const hasShowTooltip = (detail: ShowDisplayItem) => Boolean(detail.tooltip);
         <div class="social-strip" aria-label="Featured social links">
           {
             featuredSocialLinks.map((link) => (
-              <a href={link.href} target="_blank" rel="noreferrer" aria-label={link.handle ? `${link.label} ${link.handle}` : link.label} title={link.handle ? `${link.label} ${link.handle}` : link.label}>
+              <a href={link.href} target="_blank" rel="noreferrer" data-social={getSocialSlug(link.label)} aria-label={link.handle ? `${link.label} ${link.handle}` : link.label} title={link.handle ? `${link.label} ${link.handle}` : link.label}>
                 <SocialIcon icon={link.icon} title={link.label} />
                 <span class="sr-only">{link.label}</span>
               </a>
