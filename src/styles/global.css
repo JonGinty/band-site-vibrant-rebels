@@ -893,6 +893,8 @@ a[data-social="facebook"] {
   margin-right: auto;
   margin-left: auto;
   background: var(--acid-lime);
+  color: var(--night);
+  text-shadow: none;
 }
 
 .section--contact p {
