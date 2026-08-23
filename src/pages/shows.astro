@@ -3,21 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ShowList from '../components/ShowList.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
-
-const homePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 ---
 
 <BaseLayout title="Shows | Vibrant Rebels" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
   <SiteHeader />
 
   <main class="interior-page">
-    <section class="page-hero page-hero--shows" aria-labelledby="page-title">
-      <p class="eyebrow">Tour dates</p>
-      <h1 id="page-title">Shows</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed odio dui.</p>
-      <a class="button button--secondary" href={homePath}>Back to the homepage</a>
-    </section>
-
     <section class="section shows-panel shows-panel--page" aria-labelledby="shows-list-title">
       <h2 id="shows-list-title">Upcoming and past shows</h2>
       <ShowList />

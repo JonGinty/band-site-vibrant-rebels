@@ -1,6 +1,6 @@
 ---
 const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
-const logoPath = `${basePath}images/vibrant-rebels-logo.png`;
+const logoPath = `${basePath}images/vr2.svg`;
 const currentPath = Astro.url.pathname;
 
 const navItems = [
@@ -15,8 +15,8 @@ const navItems = [
 
 <header class="site-header">
   <a class="brand" href={basePath} aria-label="Vibrant Rebels home">
-    <img src={logoPath} alt="" width="2040" height="1920" />
-    <span>Vibrant Rebels</span>
+    <img src={logoPath} alt="" width="256" height="206" />
+    <span class="band-name">Vibrant Rebels</span>
   </a>
   <nav aria-label="Main navigation">
     {
