@@ -4,9 +4,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "dev": "SITE_VISIBILITY=all ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "dev:published": "SITE_VISIBILITY=published ASTRO_TELEMETRY_DISABLED=1 astro dev",
     "start": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
-    "build": "ASTRO_TELEMETRY_DISABLED=1 astro check && ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "build": "SITE_VISIBILITY=published ASTRO_TELEMETRY_DISABLED=1 astro check && SITE_VISIBILITY=published ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "build:all": "SITE_VISIBILITY=all ASTRO_TELEMETRY_DISABLED=1 astro check && SITE_VISIBILITY=all ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview"
   },
   "dependencies": {

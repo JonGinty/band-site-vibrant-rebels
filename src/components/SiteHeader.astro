@@ -1,13 +1,15 @@
 ---
+import { isSectionVisible, type SiteSection } from '../data/site-visibility';
+
 const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const logoPath = `${basePath}images/vr2.svg`;
 const currentPath = Astro.url.pathname;
 
-const navItems = [
+const navItems: Array<{ label: string; href: string; path?: string; section?: SiteSection }> = [
   { label: 'Music', href: `${basePath}#music` },
-  { label: 'Shows', href: `${basePath}shows/`, path: `${basePath}shows/` },
-  { label: 'About', href: `${basePath}about/`, path: `${basePath}about/` },
-  { label: 'Gallery', href: `${basePath}gallery/`, path: `${basePath}gallery/` },
+  { label: 'Shows', href: `${basePath}shows/`, path: `${basePath}shows/`, section: 'shows' },
+  { label: 'About', href: `${basePath}about/`, path: `${basePath}about/`, section: 'about' },
+  { label: 'Gallery', href: `${basePath}gallery/`, path: `${basePath}gallery/`, section: 'gallery' },
   { label: 'Contact', href: `${basePath}#contact` },
   { label: 'Links', href: `${basePath}links/`, path: `${basePath}links/` },
 ];
@@ -20,7 +22,7 @@ const navItems = [
   </a>
   <nav aria-label="Main navigation">
     {
-      navItems.map((item) => (
+      navItems.filter((item) => !item.section || isSectionVisible(item.section)).map((item) => (
         <a href={item.href} aria-current={item.path && currentPath === item.path ? 'page' : undefined}>
           {item.label}
         </a>

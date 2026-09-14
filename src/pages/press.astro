@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+import { isSectionVisible } from '../data/site-visibility';
 
 const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const technicalPath = `${basePath}technical/`;
@@ -9,6 +10,10 @@ const aboutPath = `${basePath}about/`;
 const galleryPath = `${basePath}gallery/`;
 const showsPath = `${basePath}shows/`;
 const logoPath = `${basePath}images/vibrant-rebels-logo.png`;
+
+if (!isSectionVisible('press')) {
+  return Astro.redirect(basePath);
+}
 ---
 
 <BaseLayout title="Press Kit | Vibrant Rebels" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">

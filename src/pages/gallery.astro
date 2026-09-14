@@ -3,8 +3,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import { galleryImages } from '../data/gallery';
+import { isSectionVisible } from '../data/site-visibility';
 
 const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+
+if (!isSectionVisible('gallery')) {
+  return Astro.redirect(basePath);
+}
 ---
 
 <BaseLayout title="Gallery | Vibrant Rebels" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">

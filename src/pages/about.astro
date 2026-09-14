@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import { bandMembers } from '../data/members';
+import { isSectionVisible } from '../data/site-visibility';
 
 const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const pressPath = `${basePath}press/`;
@@ -21,7 +22,7 @@ const pressPath = `${basePath}press/`;
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas faucibus mollis interdum. Nullam quis risus eget urna mollis ornare vel eu leo. Aenean lacinia bibendum nulla sed consectetur.</p>
         <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec ullamcorper nulla non metus auctor fringilla. Cras mattis consectetur purus sit amet fermentum.</p>
         <p>Etiam porta sem malesuada magna mollis euismod. Vestibulum id ligula porta felis euismod semper. Sed posuere consectetur est at lobortis.</p>
-        <a class="button button--secondary" href={pressPath}>Press kit</a>
+        {isSectionVisible('press') && <a class="button button--secondary" href={pressPath}>Press kit</a>}
       </div>
     </section>
 

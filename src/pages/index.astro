@@ -5,6 +5,7 @@ import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SocialIcon from '../components/SocialIcon.astro';
 import { socialLinks } from '../data/links';
+import { isSectionVisible } from '../data/site-visibility';
 
 const featuredSocialLinks = socialLinks.filter((link) => link.featured);
 const getSocialSlug = (label: string) => label.toLowerCase().replace(/\s+/g, '-');
@@ -97,7 +98,7 @@ const pressPath = `${basePath}press/`;
       <div class="contact-actions">
         <a class="button button--primary" href="mailto:info@vibrantrebels.com">info@vibrantrebels.com</a>
         <a class="button button--secondary" href={linksPath}>All official links</a>
-        <a class="button button--secondary" href={pressPath}>Press kit</a>
+        {isSectionVisible('press') && <a class="button button--secondary" href={pressPath}>Press kit</a>}
       </div>
     </section>
   </main>

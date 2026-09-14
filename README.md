@@ -9,11 +9,24 @@ npm install
 npm run dev
 ```
 
+`npm run dev` shows every section, including drafts. To see the same public-only
+view that will be deployed, use:
+
+```sh
+npm run dev:published
+```
+
+Draft status lives in `src/data/site-visibility.ts`. Set a section to `true`
+when it is ready to appear in navigation and links on the public site.
+
 ## Build
 
 ```sh
 npm run build
 ```
+
+This creates the public-only build. Use `npm run build:all` when you need a
+production build containing drafts for review.
 
 ## GitHub Pages
 
