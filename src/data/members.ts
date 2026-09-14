@@ -34,6 +34,7 @@ export const bandMembers: BandMember[] = [
     name: 'Jonji',
     role: 'Tenor Saxophone, Acoustic Guitar, and More!',
     bio: `"Hey Boyd, can we put some bouzouki on this track?" - Jonji, multi-instrumentalist and all-round musical wizard, Jonji is a master of both music and writing boring copy for a website nobody will actually read, AND THAT INCLUDES YOU!`,
+    image: 'images/jonji-bio-pic.png',
   },
   { 
     slug: 'christie',
@@ -69,6 +70,7 @@ export const bandMembers: BandMember[] = [
     slug: 'chats',
     name: 'Chats',
     role: 'Bass',
-    bio: '[jonji here] Chats, send me your bio!',
+    bio: 'The man, the myth… The pseudo funk magician, Chatonda Ridley (Chats for short) appeared one day when the rebels repeated the word “bass” three times in front of a mirror. Some say that he only speaks in song titles. Others, say that when listening to his heart beat with a stethoscope, they have heard the unmistakable sound of slap bass… all we know is that if you feed him and water him that he turns up and makes any gig you\'re playing 10 times groovier!',
+    image: 'images/chats-bio-pic.png',
   },
 ];
