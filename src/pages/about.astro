@@ -29,7 +29,7 @@ const pressPath = `${basePath}press/`;
     <section class="section members-section" aria-labelledby="members-title">
       <p class="eyebrow">Current line-up</p>
       <h2 id="members-title">Meet the band</h2>
-      <div class="member-grid">
+      <div class="member-grid" data-member-grid>
         {
           bandMembers.map((member, index) => (
             <article class="member-card" id={member.slug}>
@@ -62,3 +62,28 @@ const pressPath = `${basePath}press/`;
 
   <SiteFooter />
 </BaseLayout>
+
+<script>
+  const memberGrid = document.querySelector<HTMLElement>('[data-member-grid]');
+
+  if (memberGrid) {
+    const prioritySlugs = new Set(['oz', 'sarah', 'boyd-mckay']);
+    const memberCards = Array.from(memberGrid.children);
+    const priorityCards = memberCards.filter((card) => prioritySlugs.has(card.id));
+    const otherCards = memberCards.filter((card) => !prioritySlugs.has(card.id));
+
+    const shuffle = (cards: Element[]) => {
+      for (let index = cards.length - 1; index > 0; index -= 1) {
+        const randomIndex = Math.floor(Math.random() * (index + 1));
+        const currentCard = cards[index];
+
+        cards[index] = cards[randomIndex];
+        cards[randomIndex] = currentCard;
+      }
+
+      return cards;
+    };
+
+    [...shuffle(priorityCards), ...shuffle(otherCards)].forEach((card) => memberGrid.append(card));
+  }
+</script>
