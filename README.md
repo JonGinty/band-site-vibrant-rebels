@@ -36,25 +36,30 @@ land on the `develop` branch.
 
 In the repository settings, set Pages to deploy from GitHub Actions.
 
-The default configuration targets:
+The deployed custom-domain configuration targets:
 
 ```txt
-https://jonginty.github.io/band-site-vibrant-rebels/
+https://vibes.me.uk/
 ```
 
 ## Custom Domain
 
-The site is ready for a future custom domain, but the real domain is not
-committed yet. When you have it:
+The current temporary custom domain is `vibes.me.uk`. In the repository's
+GitHub Pages settings, add that custom domain, then configure its DNS with your
+provider. The deployment workflow already builds the site at the domain root.
 
-1. Rename `public/CNAME.example` to `public/CNAME`.
-2. Replace `your-domain.example` with the real domain.
-3. In `.github/workflows/deploy.yml`, set:
+When the permanent domain is available:
+
+1. In `.github/workflows/deploy.yml`, set:
 
 ```yaml
-SITE_URL: https://your-domain.example
+SITE_URL: https://vibrantrebels.com
 BASE_PATH: /
 ```
 
-4. In `astro.config.mjs`, you can keep the environment-based defaults as-is or
-update the fallback values to match the custom domain.
+2. Change the custom domain in GitHub Pages to `vibrantrebels.com`.
+3. Redirect `vibes.me.uk` to the permanent domain at your DNS provider.
+
+This site deploys through GitHub Actions, so GitHub Pages does not require a
+committed `CNAME` file. `public/CNAME.example` remains only as a reference for
+other hosting workflows.

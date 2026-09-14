@@ -32,8 +32,8 @@ jobs:
         run: npm run build
         env:
           ASTRO_TELEMETRY_DISABLED: 1
-          SITE_URL: https://jonginty.github.io
-          BASE_PATH: /band-site-vibrant-rebels
+          SITE_URL: https://vibes.me.uk
+          BASE_PATH: /
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
