@@ -15,7 +15,7 @@
   --marigold: #ff9f1c;
   --teal: #00d1b2;
   --aqua: #18c7ff;
-  --acid-lime: #9cff38;
+  --electric-mint: #33ff99;
   --violet: #6f38ff;
   --facebook-blue: #397dff;
   --spotify-green: #55e85c;
@@ -28,7 +28,6 @@
   --gold: var(--sun);
   --cyan: var(--aqua);
   --blue: var(--violet);
-  --lime: var(--acid-lime);
   font-family:
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -94,7 +93,7 @@ a {
 a:focus-visible,
 button:focus-visible,
 summary:focus-visible {
-  outline: 3px solid var(--acid-lime);
+  outline: 3px solid var(--electric-mint);
   outline-offset: 4px;
 }
 
@@ -163,7 +162,7 @@ summary:focus-visible {
     90deg,
     var(--coral),
     var(--sun),
-    var(--acid-lime),
+    var(--electric-mint),
     var(--teal),
     var(--aqua),
     var(--hot-pink)
@@ -231,7 +230,7 @@ nav a[aria-current="page"] {
   background:
     linear-gradient(118deg, rgba(255, 79, 63, 0.96) 0 16%, transparent 16% 100%),
     linear-gradient(124deg, transparent 0 18%, rgba(255, 210, 63, 0.95) 18% 34%, transparent 34%),
-    linear-gradient(130deg, transparent 0 37%, rgba(156, 255, 56, 0.88) 37% 48%, transparent 48%),
+    linear-gradient(130deg, transparent 0 37%, rgba(51, 255, 153, 0.88) 37% 48%, transparent 48%),
     linear-gradient(136deg, transparent 0 51%, rgba(0, 209, 178, 0.9) 51% 64%, transparent 64%),
     linear-gradient(142deg, transparent 0 67%, rgba(24, 199, 255, 0.92) 67% 80%, transparent 80%),
     linear-gradient(148deg, transparent 0 82%, rgba(255, 47, 173, 0.92) 82% 100%),
@@ -363,7 +362,7 @@ nav a[aria-current="page"] {
 }
 
 .hero .eyebrow {
-  background: var(--acid-lime);
+  background: var(--electric-mint);
   color: var(--night);
   box-shadow: 6px 6px 0 rgba(24, 7, 37, 0.28);
 }
@@ -576,7 +575,7 @@ a[data-social="facebook"] {
 }
 
 .button--secondary {
-  background: var(--acid-lime);
+  background: var(--electric-mint);
   color: var(--night);
 }
 
@@ -748,8 +747,8 @@ a[data-social="facebook"] {
 }
 
 .show:nth-child(5n) {
-  --show-accent: var(--acid-lime);
-  --show-soft: rgba(156, 255, 56, 0.24);
+  --show-accent: var(--electric-mint);
+  --show-soft: rgba(51, 255, 153, 0.24);
 }
 
 .show time {
@@ -1204,7 +1203,7 @@ a[data-social="facebook"] {
 }
 
 .member-card--current {
-  outline: 3px solid var(--acid-lime);
+  outline: 3px solid var(--electric-mint);
   outline-offset: 3px;
 }
 
@@ -1704,7 +1703,7 @@ a.resource-card:hover {
 .section--contact .eyebrow {
   margin-right: auto;
   margin-left: auto;
-  background: var(--acid-lime);
+  background: var(--electric-mint);
   color: var(--night);
   text-shadow: none;
 }
@@ -1760,7 +1759,7 @@ a.resource-card:hover {
 }
 
 .links-home:hover {
-  background: var(--acid-lime);
+  background: var(--electric-mint);
 }
 
 .links-hero .eyebrow {
