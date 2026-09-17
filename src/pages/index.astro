@@ -12,6 +12,7 @@ const featuredSocialLinks = socialLinks.filter((link) => link.featured);
 const getSocialSlug = (label: string) => label.toLowerCase().replace(/\s+/g, '-');
 const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const logoPath = `${basePath}images/vibrant-rebels-logo.png`;
+const tinyLogoPath = `${basePath}images/vibrant-rebels-logo-tiny.png`;
 const linksPath = `${basePath}links/`;
 const aboutPath = `${basePath}about/#members-title`;
 const pressPath = `${basePath}press/`;
@@ -33,11 +34,8 @@ const { Content: BandBio } = await render(band);
         <p class="eyebrow">Your favourite new sound</p>
         <h1 id="hero-title" class="sr-only">Vibrant Rebels</h1>
         <div class="hero__logo-poster" aria-hidden="true">
-          <div class="hero__logo-fallback">
-            <span class="hero__logo-fallback-vibrant">Vibrant</span>
-            <span class="hero__logo-fallback-rebels">Rebels</span>
-          </div>
-          <img class="hero__logo" src={logoPath} alt="" width="2040" height="1920" data-hero-logo />
+          <img class="hero__logo-tiny" src={tinyLogoPath} alt="" width="200" height="188" />
+          <img class="hero__logo" src={logoPath} alt="" width="2040" height="1920" data-full-logo />
         </div>
         <p>{band.data.summary}</p>
         <blockquote class="quote">
@@ -114,15 +112,24 @@ const { Content: BandBio } = await render(band);
 </BaseLayout>
 
 <script>
-  const logo = document.querySelector<HTMLImageElement>('[data-hero-logo]');
+  const fullLogo = document.querySelector<HTMLImageElement>('[data-full-logo]');
+  const logoPoster = fullLogo?.closest('.hero__logo-poster');
 
-  const hideFallback = () => {
-    logo?.closest('.hero__logo-poster')?.classList.add('hero__logo-poster--loaded');
+  const hideTinyLogo = async () => {
+    if (!fullLogo || !logoPoster || fullLogo.naturalWidth === 0) return;
+
+    try {
+      await fullLogo.decode();
+    } catch {
+      // A successfully loaded image may already be decoded in some browsers.
+    }
+
+    logoPoster.classList.add('hero__logo-poster--full-logo-ready');
   };
 
-  if (logo?.complete && logo.naturalWidth > 0) {
-    hideFallback();
+  if (fullLogo?.complete) {
+    hideTinyLogo();
   } else {
-    logo?.addEventListener('load', hideFallback, { once: true });
+    fullLogo?.addEventListener('load', hideTinyLogo, { once: true });
   }
 </script>
