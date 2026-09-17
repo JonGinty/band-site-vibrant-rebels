@@ -33,7 +33,7 @@ const memberEntries = await getCollection('members');
       </div>
     </section>
 
-    <section class="section members-section" aria-labelledby="members-title">
+    <section id="members" class="section members-section" aria-labelledby="members-title">
       <p class="eyebrow">Current line-up</p>
       <h2 id="members-title">Meet the band</h2>
       <MemberCardGrid members={memberEntries} shuffle />

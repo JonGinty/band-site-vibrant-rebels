@@ -22,22 +22,23 @@ const { member } = Astro.props;
 const { Content } = await render(member);
 const members = await getCollection('members');
 const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
-const aboutPath = `${basePath}about/`;
+const membersPath = `${basePath}about/#members`;
 ---
 
 <BaseLayout title={`${member.data.name} | Vibrant Rebels`} description={member.data.summary}>
   <SiteHeader />
 
   <main class="interior-page member-page">
-    <section class="page-hero member-hero" aria-labelledby="member-name">
-      <p class="eyebrow">Vibrant Rebels</p>
-      <h1 id="member-name">{member.data.name}</h1>
-      <p>{member.data.role}</p>
-      <a class="member-hero__back" href={aboutPath}>← Back to about</a>
-    </section>
+    <div class="member-page__return">
+      <a class="member-page__back" href={membersPath}>← Back to members</a>
+    </div>
 
     <section class="section member-profile" aria-label={`${member.data.name}'s bio`}>
       <figure class="member-profile__portrait">
+        <figcaption class="member-profile__portrait-heading">
+          <h1 id="member-name">{member.data.name}</h1>
+          <p>{member.data.role}</p>
+        </figcaption>
         {member.data.image ? (
           <img src={`${basePath}${member.data.image}`} alt={member.data.name} />
         ) : (
@@ -47,7 +48,6 @@ const aboutPath = `${basePath}about/`;
         )}
       </figure>
       <div class="member-profile__copy">
-        <p class="eyebrow">{member.data.role}</p>
         <p class="member-profile__summary">{member.data.summary}</p>
         <div class="member-profile__bio"><Content /></div>
       </div>

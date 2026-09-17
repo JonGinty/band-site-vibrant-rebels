@@ -1184,7 +1184,7 @@ a[data-social="facebook"] {
 
 .member-card__link,
 .member-card__current-label,
-.member-hero__back {
+.member-page__back {
   display: inline-block;
   color: var(--night);
   font-size: 0.82rem;
@@ -1207,9 +1207,14 @@ a[data-social="facebook"] {
   outline-offset: 3px;
 }
 
-.member-hero__back {
-  margin-top: 1.25rem;
-  color: #fffdf5;
+.member-page__return {
+  width: min(var(--content-max), calc(100% - (var(--page-pad) * 2)));
+  margin: 0 auto;
+  padding: clamp(1.1rem, 2.5vw, 1.75rem) 0;
+}
+
+.member-page__back:hover {
+  color: var(--hot-pink);
 }
 
 .member-profile {
@@ -1233,15 +1238,42 @@ a[data-social="facebook"] {
   overflow: hidden;
   border: 2px solid var(--night);
   border-radius: 8px;
-  aspect-ratio: 3 / 4;
   box-shadow: 10px 10px 0 rgba(255, 47, 173, 0.32);
+}
+
+.member-profile__portrait-heading {
+  width: 100%;
+  padding: 0.9rem 1rem 0.75rem;
+  border-bottom: 5px solid var(--night);
+  background: var(--aqua);
+  color: var(--night);
+}
+
+.member-profile__portrait-heading h1 {
+  margin: 0;
+  color: var(--night);
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  line-height: 0.92;
+}
+
+.member-profile__portrait-heading p {
+  margin: 0.3rem 0 0;
+  color: var(--plum);
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .member-profile__portrait img {
   display: block;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
+}
+
+.member-profile__portrait .image-placeholder {
+  aspect-ratio: 3 / 4;
 }
 
 .member-profile__copy {
@@ -1913,8 +1945,16 @@ footer p {
     margin-left: 0;
   }
 
+  .member-profile__portrait {
+    margin-bottom: 0;
+  }
+
   .member-grid {
     grid-template-columns: 1fr;
+  }
+
+  .member-card--current .member-card__portrait {
+    display: none;
   }
 
   .gallery-grid {
