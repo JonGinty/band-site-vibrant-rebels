@@ -4,6 +4,7 @@ import ShowList from '../components/ShowList.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SocialIcon from '../components/SocialIcon.astro';
+import { getEntry, render } from 'astro:content';
 import { socialLinks } from '../data/links';
 import { isSectionVisible } from '../data/site-visibility';
 
@@ -14,6 +15,13 @@ const logoPath = `${basePath}images/vibrant-rebels-logo.png`;
 const linksPath = `${basePath}links/`;
 const aboutPath = `${basePath}about/#members-title`;
 const pressPath = `${basePath}press/`;
+const band = await getEntry('band', 'band');
+
+if (!band) {
+  throw new Error('The band bio content entry is missing.');
+}
+
+const { Content: BandBio } = await render(band);
 ---
 
 <BaseLayout>
@@ -27,9 +35,7 @@ const pressPath = `${basePath}press/`;
         <div class="hero__logo-poster" aria-hidden="true">
           <img class="hero__logo" src={logoPath} alt="" width="2040" height="1920" />
         </div>
-        <p>
-          A high-energy blend of hip hop, pop, ska and funk, with dual lead singers and rappers backed by horns, keys and percussion, and a full rock band!
-        </p>
+        <p>{band.data.summary}</p>
         <blockquote class="quote">
           <p class="quote-text">Perfect Festival Music!</p>
           <cite class="quote-author">Mark Mghee</cite>
@@ -83,10 +89,7 @@ const pressPath = `${basePath}press/`;
         <h2 id="about-title">The Story So Far</h2>
       </div>
       <div class="about-summary">
-        <p>
-          Vibrant Rebels formed in 2025 in Scotland when guitarist Boyd McKay sent multi-instrumentalist Jonji a message to the tune of "Hey, we should do another band, no assholes this time though!". <br/>
-          Now featuring a line-up of ten musicians, Vibrant Rebels are ready to tear up any stage they can squeeze on to, big or small, with their unique musical blend of hip-hop, pop, ska, funk and rock!
-        </p>
+        <div class="about-summary__copy"><BandBio /></div>
         <a class="button button--secondary" href={aboutPath}>Meet the band</a>
       </div>
     </section>

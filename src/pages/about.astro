@@ -2,11 +2,28 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
-import { bandMembers } from '../data/members';
+import { getCollection, getEntry, render } from 'astro:content';
 import { isSectionVisible } from '../data/site-visibility';
 
 const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const pressPath = `${basePath}press/`;
+const band = await getEntry('band', 'band');
+
+if (!band) {
+  throw new Error('The band bio content entry is missing.');
+}
+
+const { Content: BandBio } = await render(band);
+const memberEntries = await getCollection('members');
+const bandMembers = await Promise.all(
+  memberEntries
+    .sort((first, second) => first.data.order - second.data.order)
+    .map(async (member) => ({
+      slug: member.id,
+      ...member.data,
+      Content: (await render(member)).Content,
+    })),
+);
 ---
 
 <BaseLayout title="About | Vibrant Rebels" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
@@ -19,8 +36,7 @@ const pressPath = `${basePath}press/`;
         <h2 id="band-bio-title">The full story</h2>
       </div>
       <div class="band-bio__copy">
-          <p>Vibrant Rebels formed in 2025 in Scotland when guitarist Boyd McKay sent multi-instrumentalist Jonji a message to the tune of "Hey, we should do another band, no assholes this time though!". </p>
-          <p>Now featuring a line-up of ten musicians, vibrant rebels are ready to tear up any stage they can squeeze on to, big or small, with their unique musical blend of hip-hop, pop, ska, funk and rock! </p>
+        <BandBio />
         {isSectionVisible('press') && <a class="button button--secondary" href={pressPath}>Press kit</a>}
       </div>
     </section>
@@ -45,10 +61,10 @@ const pressPath = `${basePath}press/`;
                 <p class="member-card__role">{member.role}</p>
                 <h3>{member.name}</h3>
                 <div class="member-card__bio-wrap">
-                  <p class="member-card__bio-preview">{member.bio}</p>
+                  <div class="member-card__bio-preview"><member.Content /></div>
                   <details class="member-card__details">
                     <summary>Read full bio</summary>
-                    <p class="member-card__bio">{member.bio}</p>
+                    <div class="member-card__bio"><member.Content /></div>
                   </details>
                 </div>
               </div>

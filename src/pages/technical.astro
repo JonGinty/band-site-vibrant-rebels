@@ -2,12 +2,15 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
-import { bandMembers } from '../data/members';
+import { getCollection } from 'astro:content';
 import { isSectionVisible } from '../data/site-visibility';
 
 const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const pressPath = `${basePath}press/`;
 const inputRows = Array.from({ length: 16 }, (_, index) => String(index + 1).padStart(2, '0'));
+const bandMembers = (await getCollection('members'))
+  .sort((first, second) => first.data.order - second.data.order)
+  .map((member) => ({ slug: member.id, ...member.data }));
 
 if (!isSectionVisible('technical')) {
   return Astro.redirect(basePath);

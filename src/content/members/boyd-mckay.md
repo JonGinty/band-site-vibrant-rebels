@@ -1,0 +1,8 @@
+---
+name: Boyd
+role: Lead Guitar, and Vocals
+image: images/boyd-mckay-bio-pic.png
+order: 3
+---
+
+The incredible driving force behind the band, Boyd is a legendary guitarist and veteran of the Scottish music scene with a career spanning over a decade!
