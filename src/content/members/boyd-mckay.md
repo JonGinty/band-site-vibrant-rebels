@@ -1,7 +1,7 @@
 ---
-name: Boyd
+name: Murray
 role: Lead Guitar, and Vocals
-summary: The incredible driving force behind the band, Boyd is a legendary guitarist and veteran of the Scottish music scene with a career spanning over a decade!
+summary: The incredible driving force behind the band, Murray is a legendary guitarist and veteran of the Scottish music scene with a career spanning over a decade!
 image: images/boyd-mckay-bio-pic.png
 order: 3
 ---
