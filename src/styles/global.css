@@ -338,12 +338,61 @@ nav a[aria-current="page"] {
 }
 
 .hero__logo {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   height: auto;
   filter:
     drop-shadow(0 10px 18px rgba(24, 7, 37, 0.18))
     drop-shadow(0 4px 0 rgba(255, 210, 63, 0.58));
+}
+
+.hero__logo-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 1rem;
+  color: var(--aqua);
+  font-family: "Nuku Nuku", ui-rounded, "Arial Rounded MT Bold", ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(4.65rem, 16.5vw, 9.45rem);
+  font-weight: 900;
+  letter-spacing: -0.08em;
+  line-height: 0.76;
+  text-align: center;
+  text-transform: uppercase;
+  transition: opacity 160ms ease-out, visibility 0s linear 160ms;
+}
+
+.hero__logo-poster--loaded .hero__logo-fallback {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.hero__logo-fallback-vibrant,
+.hero__logo-fallback-rebels {
+  display: block;
+  -webkit-text-stroke: clamp(1px, 0.25vw, 2px) var(--violet);
+  paint-order: stroke fill;
+  text-shadow:
+    clamp(2px, 0.55vw, 5px) clamp(2px, 0.55vw, 5px) 0 var(--violet),
+    0 0 0.22em var(--aqua);
+}
+
+.hero__logo-fallback-vibrant {
+  color: #fff;
+  transform: rotate(-2deg) skewX(-7deg);
+}
+
+.hero__logo-fallback-rebels {
+  margin-top: 0.08em;
+  color: var(--coral);
+  font-size: 1.12em;
+  transform: rotate(-5deg) skewX(-9deg);
 }
 
 .eyebrow {
@@ -1914,6 +1963,20 @@ footer p {
   margin: 0;
 }
 
+.footer-credit {
+  display: inline-block;
+  margin-left: 0.65rem;
+  color: rgba(255, 253, 245, 0.5);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.035em;
+}
+
+.footer-credit::before {
+  content: '·';
+  margin-right: 0.65rem;
+}
+
 @media (max-width: 760px) {
   :root {
     --page-pad: 1rem;
@@ -1927,6 +1990,15 @@ footer p {
   nav,
   footer div {
     gap: 0.35rem 0.7rem;
+  }
+
+  .footer-credit {
+    display: block;
+    margin: 0.3rem 0 0;
+  }
+
+  .footer-credit::before {
+    display: none;
   }
 
   .section--split,

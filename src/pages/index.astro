@@ -33,7 +33,11 @@ const { Content: BandBio } = await render(band);
         <p class="eyebrow">Your favourite new sound</p>
         <h1 id="hero-title" class="sr-only">Vibrant Rebels</h1>
         <div class="hero__logo-poster" aria-hidden="true">
-          <img class="hero__logo" src={logoPath} alt="" width="2040" height="1920" />
+          <div class="hero__logo-fallback">
+            <span class="hero__logo-fallback-vibrant">Vibrant</span>
+            <span class="hero__logo-fallback-rebels">Rebels</span>
+          </div>
+          <img class="hero__logo" src={logoPath} alt="" width="2040" height="1920" data-hero-logo />
         </div>
         <p>{band.data.summary}</p>
         <blockquote class="quote">
@@ -108,3 +112,17 @@ const { Content: BandBio } = await render(band);
 
   <SiteFooter />
 </BaseLayout>
+
+<script>
+  const logo = document.querySelector<HTMLImageElement>('[data-hero-logo]');
+
+  const hideFallback = () => {
+    logo?.closest('.hero__logo-poster')?.classList.add('hero__logo-poster--loaded');
+  };
+
+  if (logo?.complete && logo.naturalWidth > 0) {
+    hideFallback();
+  } else {
+    logo?.addEventListener('load', hideFallback, { once: true });
+  }
+</script>
