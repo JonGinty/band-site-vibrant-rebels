@@ -1,0 +1,77 @@
+---
+type Member = {
+  id: string;
+  data: {
+    name: string;
+    role: string;
+    summary: string;
+    image?: string;
+    order: number;
+  };
+};
+
+interface Props {
+  members: Member[];
+  currentSlug?: string;
+  shuffle?: boolean;
+}
+
+const { members, currentSlug, shuffle = false } = Astro.props;
+const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const sortedMembers = [...members].sort((first, second) => first.data.order - second.data.order);
+---
+
+<div class="member-grid member-grid--compact" data-member-grid data-shuffle={shuffle ? 'true' : 'false'}>
+  {
+    sortedMembers.map((member, index) => {
+      const isCurrent = member.id === currentSlug;
+      const memberPath = `${basePath}about/members/${member.id}/`;
+
+      return (
+        <article class:list={['member-card', isCurrent && 'member-card--current']} id={member.id}>
+          <figure class="member-card__portrait">
+            {member.data.image ? (
+              <img src={`${basePath}${member.data.image}`} alt={member.data.name} loading="lazy" />
+            ) : (
+              <div class="image-placeholder" role="img" aria-label={`Placeholder portrait for ${member.data.name}`}>
+                <span>Photo placeholder {String(index + 1).padStart(2, '0')}</span>
+              </div>
+            )}
+          </figure>
+          <div class="member-card__copy">
+            <p class="member-card__role">{member.data.role}</p>
+            <h3>{member.data.name}</h3>
+            <p class="member-card__bio-preview">{member.data.summary}</p>
+            {isCurrent ? (
+              <span class="member-card__current-label" aria-current="page">You’re here</span>
+            ) : (
+              <a class="member-card__link" href={memberPath} aria-label={`Read ${member.data.name}'s full bio`}>
+                Read more<span aria-hidden="true"> →</span>
+              </a>
+            )}
+          </div>
+        </article>
+      );
+    })
+  }
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-member-grid][data-shuffle="true"]').forEach((memberGrid) => {
+    const prioritySlugs = new Set(['oz', 'sarah', 'boyd-mckay']);
+    const memberCards = Array.from(memberGrid.children);
+    const priorityCards = memberCards.filter((card) => prioritySlugs.has(card.id));
+    const otherCards = memberCards.filter((card) => !prioritySlugs.has(card.id));
+
+    const shuffle = (cards: Element[]) => {
+      for (let index = cards.length - 1; index > 0; index -= 1) {
+        const randomIndex = Math.floor(Math.random() * (index + 1));
+        [cards[index], cards[randomIndex]] = [cards[randomIndex], cards[index]];
+      }
+
+      return cards;
+    };
+
+    [...shuffle(priorityCards), ...shuffle(otherCards)].forEach((card) => memberGrid.append(card));
+  });
+</script>

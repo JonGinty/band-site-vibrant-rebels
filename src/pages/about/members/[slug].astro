@@ -1,0 +1,64 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import MemberCardGrid from '../../../components/MemberCardGrid.astro';
+import SiteFooter from '../../../components/SiteFooter.astro';
+import SiteHeader from '../../../components/SiteHeader.astro';
+
+export async function getStaticPaths() {
+  const members = await getCollection('members');
+
+  return members.map((member) => ({
+    params: { slug: member.id },
+    props: { member },
+  }));
+}
+
+interface Props {
+  member: CollectionEntry<'members'>;
+}
+
+const { member } = Astro.props;
+const { Content } = await render(member);
+const members = await getCollection('members');
+const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const membersPath = `${basePath}about/#members`;
+---
+
+<BaseLayout title={`${member.data.name} | Vibrant Rebels`} description={member.data.summary}>
+  <SiteHeader />
+
+  <main class="interior-page member-page">
+    <div class="member-page__return">
+      <a class="member-page__back" href={membersPath}>← Back to members</a>
+    </div>
+
+    <section class="section member-profile" aria-label={`${member.data.name}'s bio`}>
+      <figure class="member-profile__portrait">
+        <figcaption class="member-profile__portrait-heading">
+          <h1 id="member-name">{member.data.name}</h1>
+          <p>{member.data.role}</p>
+        </figcaption>
+        {member.data.image ? (
+          <img src={`${basePath}${member.data.image}`} alt={member.data.name} />
+        ) : (
+          <div class="image-placeholder" role="img" aria-label={`Placeholder portrait for ${member.data.name}`}>
+            <span>Photo coming soon</span>
+          </div>
+        )}
+      </figure>
+      <div class="member-profile__copy">
+        <p class="member-profile__summary">{member.data.summary}</p>
+        <div class="member-profile__bio"><Content /></div>
+      </div>
+    </section>
+
+    <section class="section members-section member-navigation" aria-labelledby="other-members-title">
+      <p class="eyebrow">Keep exploring</p>
+      <h2 id="other-members-title">Meet the rest of the band</h2>
+      <MemberCardGrid members={members} currentSlug={member.id} />
+    </section>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>
