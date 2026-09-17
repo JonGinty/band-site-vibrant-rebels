@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+import MemberCardGrid from '../components/MemberCardGrid.astro';
 import { getCollection, getEntry, render } from 'astro:content';
 import { isSectionVisible } from '../data/site-visibility';
 
@@ -15,15 +16,6 @@ if (!band) {
 
 const { Content: BandBio } = await render(band);
 const memberEntries = await getCollection('members');
-const bandMembers = await Promise.all(
-  memberEntries
-    .sort((first, second) => first.data.order - second.data.order)
-    .map(async (member) => ({
-      slug: member.id,
-      ...member.data,
-      Content: (await render(member)).Content,
-    })),
-);
 ---
 
 <BaseLayout title="About | Vibrant Rebels" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
@@ -44,61 +36,9 @@ const bandMembers = await Promise.all(
     <section class="section members-section" aria-labelledby="members-title">
       <p class="eyebrow">Current line-up</p>
       <h2 id="members-title">Meet the band</h2>
-      <div class="member-grid" data-member-grid>
-        {
-          bandMembers.map((member, index) => (
-            <article class="member-card" id={member.slug}>
-              <figure class="member-card__portrait">
-                {member.image ? (
-                  <img src={`${basePath}${member.image}`} alt={member.name} loading="lazy" />
-                ) : (
-                  <div class="image-placeholder" role="img" aria-label={`Placeholder portrait for ${member.name}`}>
-                    <span>Photo placeholder {String(index + 1).padStart(2, '0')}</span>
-                  </div>
-                )}
-              </figure>
-              <div class="member-card__copy">
-                <p class="member-card__role">{member.role}</p>
-                <h3>{member.name}</h3>
-                <div class="member-card__bio-wrap">
-                  <div class="member-card__bio-preview"><member.Content /></div>
-                  <details class="member-card__details">
-                    <summary>Read full bio</summary>
-                    <div class="member-card__bio"><member.Content /></div>
-                  </details>
-                </div>
-              </div>
-            </article>
-          ))
-        }
-      </div>
+      <MemberCardGrid members={memberEntries} shuffle />
     </section>
   </main>
 
   <SiteFooter />
 </BaseLayout>
-
-<script>
-  const memberGrid = document.querySelector<HTMLElement>('[data-member-grid]');
-
-  if (memberGrid) {
-    const prioritySlugs = new Set(['oz', 'sarah', 'boyd-mckay']);
-    const memberCards = Array.from(memberGrid.children);
-    const priorityCards = memberCards.filter((card) => prioritySlugs.has(card.id));
-    const otherCards = memberCards.filter((card) => !prioritySlugs.has(card.id));
-
-    const shuffle = (cards: Element[]) => {
-      for (let index = cards.length - 1; index > 0; index -= 1) {
-        const randomIndex = Math.floor(Math.random() * (index + 1));
-        const currentCard = cards[index];
-
-        cards[index] = cards[randomIndex];
-        cards[randomIndex] = currentCard;
-      }
-
-      return cards;
-    };
-
-    [...shuffle(priorityCards), ...shuffle(otherCards)].forEach((card) => memberGrid.append(card));
-  }
-</script>

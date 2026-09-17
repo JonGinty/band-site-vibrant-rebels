@@ -13,6 +13,7 @@ const members = defineCollection({
   schema: z.object({
     name: z.string(),
     role: z.string(),
+    summary: z.string(),
     image: z.string().optional(),
     order: z.number(),
   }),
