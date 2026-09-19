@@ -27,6 +27,19 @@ export const getUpcomingShows = (now = new Date()): Show[] => {
     .sort((first, second) => getShowDate(first.date).getTime() - getShowDate(second.date).getTime());
 };
 
+// This changes whenever the preview-card content changes, giving social platforms a new image URL.
+export const getShowsPreviewVersion = (now = new Date()): string => {
+  const previewShows = getUpcomingShows(now).slice(0, 2);
+  const signature = previewShows
+    .map((show) => [show.date, show.event, show.city, show.venue].filter(Boolean).join('|'))
+    .join('~') || 'no-upcoming-shows';
+  const hash = Array.from(signature)
+    .reduce((value, character) => ((value * 31) + character.charCodeAt(0)) >>> 0, 0)
+    .toString(36);
+
+  return `upcoming-${previewShows.map((show) => show.date).join('-') || 'none'}-${hash}`;
+};
+
 export const shows: Show[] = [
   {
     date: '2026-04-30',

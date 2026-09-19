@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ShowList from '../components/ShowList.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
-import { getShowDate, getShowHighlight, getUpcomingShows } from '../data/shows';
+import { getShowDate, getShowHighlight, getShowsPreviewVersion, getUpcomingShows } from '../data/shows';
 
 const shortDateFormatter = new Intl.DateTimeFormat('en-GB', {
   day: '2-digit',
@@ -19,9 +19,11 @@ const title = upcomingShowSummary
 const description = upcomingShowSummary
   ? `See Vibrant Rebels live: ${upcomingShowSummary}.`
   : 'See upcoming and past Vibrant Rebels live shows.';
+const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const previewImage = `${basePath}images/shows-preview/${getShowsPreviewVersion()}.png`;
 ---
 
-<BaseLayout {title} {description}>
+<BaseLayout {title} {description} image={previewImage}>
   <SiteHeader />
 
   <main class="interior-page">
