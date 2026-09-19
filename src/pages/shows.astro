@@ -13,11 +13,9 @@ const upcomingShows = getUpcomingShows().slice(0, 2);
 const upcomingShowSummary = upcomingShows
   .map((show) => `${getShowHighlight(show)} · ${shortDateFormatter.format(getShowDate(show.date))}`)
   .join('; ');
-const title = upcomingShowSummary
-  ? `Upcoming shows: ${upcomingShowSummary} | Vibrant Rebels`
-  : 'Shows | Vibrant Rebels';
+const title = 'Shows | Vibrant Rebels';
 const description = upcomingShowSummary
-  ? `See Vibrant Rebels live: ${upcomingShowSummary}.`
+  ? `Upcoming shows: ${upcomingShowSummary}.`
   : 'See upcoming and past Vibrant Rebels live shows.';
 const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
 const previewImage = `${basePath}images/shows-preview/${getShowsPreviewVersion()}.png`;
