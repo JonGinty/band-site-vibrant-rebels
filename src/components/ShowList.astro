@@ -1,7 +1,6 @@
 ---
-import { shows, type Show } from '../data/shows';
+import { getShowDate, getShowHighlight, showBufferDays, shows, type Show } from '../data/shows';
 
-const showBufferDays = 1;
 const dateFormatter = new Intl.DateTimeFormat('en-GB', {
   day: '2-digit',
   month: 'short',
@@ -12,7 +11,6 @@ const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 const upcomingCutoff = new Date(today);
 upcomingCutoff.setDate(today.getDate() - showBufferDays);
 
-const getShowDate = (date: string) => new Date(`${date}T00:00:00`);
 const sortUpcomingShows = (first: Show, second: Show) =>
   getShowDate(first.date).getTime() - getShowDate(second.date).getTime();
 const sortPastShows = (first: Show, second: Show) =>
@@ -27,7 +25,7 @@ type ShowDisplayItem = {
 };
 
 const getShowTitle = (show: Show): ShowDisplayItem => ({
-  label: show.event || show.city,
+  label: getShowHighlight(show),
   tooltip: !show.event && show.region ? show.region : !show.venue ? show.address : undefined,
 });
 const getShowDetails = (show: Show): ShowDisplayItem[] => {

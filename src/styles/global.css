@@ -985,6 +985,87 @@ a[data-social="facebook"] {
   margin-top: 1rem;
 }
 
+.auction-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(15rem, 0.9fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+  padding: clamp(2rem, 6vw, 5rem) var(--page-pad);
+  background:
+    linear-gradient(125deg, rgba(24, 199, 255, 0.24) 0 18%, transparent 18%),
+    linear-gradient(310deg, rgba(255, 47, 173, 0.18) 0 20%, transparent 20%),
+    var(--paper);
+}
+
+.auction-feature__image {
+  order: -1;
+  width: min(100%, 48rem);
+  margin: 0;
+  padding: clamp(0.45rem, 1.5vw, 1rem);
+  border: 3px solid var(--night);
+  border-radius: 12px;
+  background: #fffdf5;
+  box-shadow: 10px 10px 0 var(--night);
+}
+
+.auction-feature__image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.auction-feature__copy {
+  max-width: 34rem;
+}
+
+.auction-page .page-hero .eyebrow {
+  background: var(--electric-mint);
+  color: var(--night);
+}
+
+.auction-page .page-hero .button--primary {
+  background: var(--aqua);
+  color: var(--night);
+}
+
+.auction-page .page-hero .button--primary:hover {
+  background: var(--sun);
+  color: var(--night);
+}
+
+.auction-feature__copy .eyebrow {
+  background: var(--coral);
+  color: var(--night);
+}
+
+.auction-feature__copy h2 {
+  margin: 0.35rem 0 1rem;
+  color: var(--plum);
+  font-size: clamp(2.25rem, 4vw, 4rem);
+  line-height: 0.95;
+}
+
+.auction-feature__copy p:not(.eyebrow) {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: clamp(1.05rem, 1.7vw, 1.2rem);
+  font-weight: 700;
+}
+
+.auction-feature__copy .button {
+  margin-top: 1.5rem;
+}
+
+.auction-feature__copy .button--primary {
+  background: var(--violet);
+  color: #fffdf5;
+}
+
+.auction-feature__copy .button--primary:hover {
+  background: var(--hot-pink);
+  color: #fffdf5;
+}
+
 .shows-panel--page {
   border-top: 0;
 }
@@ -1970,8 +2051,13 @@ footer p {
   .section--split,
   .band-bio,
   .member-profile,
+  .auction-feature,
   .show {
     grid-template-columns: 1fr;
+  }
+
+  .auction-feature__image {
+    order: initial;
   }
 
   .band-bio__heading,

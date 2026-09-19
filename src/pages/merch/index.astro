@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+
+const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const auctionPath = `${basePath}merch/auction/`;
+---
+
+<BaseLayout title="Merch | Vibrant Rebels" description="Vibrant Rebels merchandise and silent auction information.">
+  <SiteHeader />
+
+  <main class="interior-page merch-page">
+    <section class="page-hero" aria-labelledby="page-title">
+      <p class="eyebrow">Vibrant Rebels merch</p>
+      <h1 id="page-title">Merch is on its way</h1>
+      <p>We're setting up an online merch store, but it isn't ready yet. You can get some exclusive merch at any of our shows though!</p>
+      <div class="page-hero__actions">
+        <a class="button button--secondary" href={auctionPath}>Visit the silent auction</a>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>

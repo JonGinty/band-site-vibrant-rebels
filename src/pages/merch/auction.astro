@@ -1,0 +1,76 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import { getCurrentAuctionShow, getShowDate, getShowHighlight, type Show } from '../../data/shows';
+
+const basePath = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const auctionMerchImage = `${basePath}images/sample-merch-setlist-transparent.png`;
+const auctionFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSey81hPziA3hqysqUmxPIXc07bt5k1UolJ6bEiqi-KDTe48OQ/viewform?usp=sharing&ouid=108991809500585993892';
+const dateFormatter = new Intl.DateTimeFormat('en-GB', {
+  day: '2-digit',
+  month: 'short',
+});
+const formatAuctionDate = (date: string) => dateFormatter
+  .formatToParts(getShowDate(date))
+  .filter(({ type }) => type === 'day' || type === 'month')
+  .map(({ value, type }) => type === 'month' ? value.slice(0, 3) : value)
+  .join(' ');
+const getAuctionCtaLabel = (show?: Show) => show
+  ? `Enter now for ${formatAuctionDate(show.date)} @ ${getShowHighlight(show)}`
+  : 'Enter the silent auction';
+const auctionShow = getCurrentAuctionShow();
+---
+
+<BaseLayout title="Silent Auction | Vibrant Rebels" description="Vibrant Rebels silent auction merchandise.">
+  <SiteHeader />
+
+  <main class="interior-page auction-page">
+    <section class="page-hero" aria-labelledby="page-title">
+      <p class="eyebrow">Gig-only exclusives</p>
+      <h1 id="page-title">Silent auction</h1>
+      <div class="page-hero__actions">
+        <a class="button button--primary" data-auction-entry href={auctionFormUrl} target="_blank" rel="noreferrer">
+          {getAuctionCtaLabel(auctionShow)}
+        </a>
+      </div>
+    </section>
+
+    <section class="auction-feature" aria-labelledby="auction-prize-title">
+      <div class="auction-feature__copy">
+        <p class="eyebrow">Tonight's prize</p>
+        <h2 id="auction-prize-title">A one-off piece of the show</h2>
+        <p>Enter our silent auction for a chance to bag a unique piece of merch. Included is a framed setlist used tonight and signed by the band, a one-off Polaroid photo taken during the show, and a signed guitar pick used by Jonji or Murray during the show.</p>
+        <a class="button button--primary" href={auctionFormUrl} target="_blank" rel="noreferrer">
+          Enter now
+        </a>
+      </div>
+      <figure class="auction-feature__image">
+        <img src={auctionMerchImage} alt="A signed framed Vibrant Rebels setlist, a one-off show Polaroid, and a signed guitar pick." />
+      </figure>
+    </section>
+  </main>
+
+  <SiteFooter />
+
+  <script>
+    import { getCurrentAuctionShow, getShowDate, getShowHighlight } from '../../data/shows';
+
+    const dateFormatter = new Intl.DateTimeFormat('en-GB', {
+      day: '2-digit',
+      month: 'short',
+    });
+    const formatAuctionDate = (date: string) => dateFormatter
+      .formatToParts(getShowDate(date))
+      .filter(({ type }) => type === 'day' || type === 'month')
+      .map(({ value, type }) => type === 'month' ? value.slice(0, 3) : value)
+      .join(' ');
+    document.querySelectorAll<HTMLAnchorElement>('[data-auction-entry]').forEach((entryLink) => {
+      const auctionShow = getCurrentAuctionShow();
+
+      if (auctionShow) {
+        entryLink.textContent = `Enter now for ${formatAuctionDate(auctionShow.date)} @ ${getShowHighlight(auctionShow)}`;
+      }
+    });
+  </script>
+</BaseLayout>
