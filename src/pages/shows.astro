@@ -3,9 +3,25 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ShowList from '../components/ShowList.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
+import { getShowDate, getShowHighlight, getUpcomingShows } from '../data/shows';
+
+const shortDateFormatter = new Intl.DateTimeFormat('en-GB', {
+  day: '2-digit',
+  month: 'short',
+});
+const upcomingShows = getUpcomingShows().slice(0, 2);
+const upcomingShowSummary = upcomingShows
+  .map((show) => `${getShowHighlight(show)} · ${shortDateFormatter.format(getShowDate(show.date))}`)
+  .join('; ');
+const title = upcomingShowSummary
+  ? `Upcoming shows: ${upcomingShowSummary} | Vibrant Rebels`
+  : 'Shows | Vibrant Rebels';
+const description = upcomingShowSummary
+  ? `See Vibrant Rebels live: ${upcomingShowSummary}.`
+  : 'See upcoming and past Vibrant Rebels live shows.';
 ---
 
-<BaseLayout title="Shows | Vibrant Rebels" description="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+<BaseLayout {title} {description}>
   <SiteHeader />
 
   <main class="interior-page">

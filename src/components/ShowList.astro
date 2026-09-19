@@ -1,5 +1,5 @@
 ---
-import { getShowDate, getShowHighlight, showBufferDays, shows, type Show } from '../data/shows';
+import { getShowDate, getShowHighlight, getUpcomingShows, showBufferDays, shows, type Show } from '../data/shows';
 
 const dateFormatter = new Intl.DateTimeFormat('en-GB', {
   day: '2-digit',
@@ -11,12 +11,10 @@ const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 const upcomingCutoff = new Date(today);
 upcomingCutoff.setDate(today.getDate() - showBufferDays);
 
-const sortUpcomingShows = (first: Show, second: Show) =>
-  getShowDate(first.date).getTime() - getShowDate(second.date).getTime();
 const sortPastShows = (first: Show, second: Show) =>
   getShowDate(second.date).getTime() - getShowDate(first.date).getTime();
 // Static fallback: this split is rendered at publish/build time for no-JS visitors.
-const upcomingShows = shows.filter((show) => getShowDate(show.date) >= upcomingCutoff).sort(sortUpcomingShows);
+const upcomingShows = getUpcomingShows(now);
 const pastShows = shows.filter((show) => getShowDate(show.date) < upcomingCutoff).sort(sortPastShows);
 
 type ShowDisplayItem = {

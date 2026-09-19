@@ -16,6 +16,17 @@ export const getShowDate = (date: string) => new Date(`${date}T00:00:00`);
 
 export const getShowHighlight = (show: Show) => show.event || show.city;
 
+export const getUpcomingShows = (now = new Date()): Show[] => {
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const cutoff = new Date(today);
+
+  cutoff.setDate(today.getDate() - showBufferDays);
+
+  return shows
+    .filter((show) => getShowDate(show.date) >= cutoff)
+    .sort((first, second) => getShowDate(first.date).getTime() - getShowDate(second.date).getTime());
+};
+
 export const shows: Show[] = [
   {
     date: '2026-04-30',
@@ -68,12 +79,5 @@ export const shows: Show[] = [
 // Prefer the next show, while keeping a show visible for the day after it has happened.
 // This is shared by the shows list and the silent-auction call to action.
 export const getCurrentAuctionShow = (now = new Date()): Show | undefined => {
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const cutoff = new Date(today);
-
-  cutoff.setDate(today.getDate() - showBufferDays);
-
-  return shows
-    .filter((show) => getShowDate(show.date) >= cutoff)
-    .sort((first, second) => getShowDate(first.date).getTime() - getShowDate(second.date).getTime())[0];
+  return getUpcomingShows(now)[0];
 };
