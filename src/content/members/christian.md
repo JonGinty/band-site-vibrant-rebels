@@ -1,6 +1,6 @@
 ---
 name: Christian
-role: Also Saxophone
+role: Alto Saxophone
 summary: A recently qualified Saxophone Wizard. Full bio coming soon.
 order: 6
 ---
