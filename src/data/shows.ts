@@ -117,7 +117,6 @@ export const shows: Show[] = [
   {
     date: '2026-11-27',
     city: 'Edinburgh',
-    region: 'Edinburgh, North East Scotland, UK',
     venue: 'Stramash',
     address: '207 Cowgate, Edinburgh, EH1 1JQ',
     unticketed: true,
@@ -128,7 +127,7 @@ export const shows: Show[] = [
   {
     date: '2026-12-05',
     city: 'Haddington',
-    region: 'East Lothian, North East Scotland, UK',
+    region: 'East Lothian, South East Scotland, UK',
     detailsComingSoon: true,
   }
 ];
