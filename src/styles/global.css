@@ -1570,8 +1570,41 @@ a[data-social="facebook"] {
 }
 
 .technical-rider__content h3 {
-  margin-top: 2rem;
-  color: var(--ink);
+  position: relative;
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  margin-bottom: 1.1rem;
+  padding: 0 0 0.4rem;
+  border: 0;
+  border-bottom: 2px solid rgba(53, 17, 87, 0.35);
+  color: var(--plum);
+  font-size: clamp(1.25rem, 2.5vw, 1.55rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.technical-rider__content h3::after {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: clamp(4rem, 12vw, 8rem);
+  height: 2px;
+  background: linear-gradient(90deg, var(--hot-pink), var(--coral), var(--sun));
+  content: "";
+}
+
+.technical-rider__content h4 {
+  width: fit-content;
+  max-width: 100%;
+  margin: 1.5rem 0 0.65rem;
+  padding: 0.25rem 0.65rem 0.25rem 0.6rem;
+  border-left: 4px solid var(--hot-pink);
+  background: rgba(255, 210, 63, 0.38);
+  color: var(--plum);
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.09em;
+  line-height: 1.25;
+  text-transform: uppercase;
 }
 
 .technical-rider__content p,
@@ -2432,12 +2465,17 @@ footer p {
     margin: 12mm;
   }
 
+  html {
+    background: #fff !important;
+    color-scheme: light;
+  }
+
   :root {
     --page-pad: 0;
   }
 
   body {
-    background: #fff;
+    background: #fff !important;
     color: #000;
   }
 
@@ -2513,5 +2551,59 @@ footer p {
 
   .section--contact .eyebrow {
     margin-left: 0;
+  }
+
+  .technical-rider__content h1,
+  .technical-rider__content h2,
+  .technical-rider__content h3,
+  .technical-rider__content h4 {
+    color: #000;
+  }
+
+  .technical-rider__content h3 {
+    width: auto;
+    margin-top: 1.5rem;
+    margin-bottom: 0.65rem;
+    padding: 0 0 0.2rem;
+    border: 0;
+    border-bottom: 1px solid #000;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    font-size: 1.2rem;
+  }
+
+  .technical-rider__content h3::after {
+    display: none;
+  }
+
+  .technical-rider__content h4 {
+    width: auto;
+    margin-top: 1rem;
+    margin-bottom: 0.4rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+  }
+
+  .technical-rider__table-wrap {
+    overflow: visible;
+    margin: 0.9rem 0 1.25rem;
+  }
+
+  .technical-rider__content table {
+    width: 100%;
+    min-width: 0;
+    table-layout: fixed;
+  }
+
+  .technical-rider__content th,
+  .technical-rider__content td {
+    padding: 0.4rem 0.45rem;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    hyphens: auto;
   }
 }
