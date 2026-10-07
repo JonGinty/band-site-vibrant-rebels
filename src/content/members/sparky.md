@@ -5,4 +5,4 @@ summary: Our talented producer, and live percussionist and DJ. Full bio coming s
 order: 8
 ---
 
-[jonji here] Sparky, send me your bio!
+[jonji here] Sparky, send me your bio! And a picture! There's no photographic evidence that you exist anywhere on the internet!

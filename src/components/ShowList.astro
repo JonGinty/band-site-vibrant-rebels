@@ -41,6 +41,14 @@ const getShowDetails = (show: Show): ShowDisplayItem[] => {
 };
 
 const hasShowTooltip = (detail: ShowDisplayItem) => Boolean(detail.tooltip);
+const hasShowInfoModal = (show: Show) => Boolean(show.startTime || show.unticketed || show.doorPrice !== undefined);
+const getSetTime = (show: Show) => show.startTime
+  ? [show.startTime, show.endTime].filter((time): time is string => Boolean(time)).join(' – ')
+  : undefined;
+const getEntryFee = (show: Show) => show.doorPrice === 0 ? 'Free Entry' : show.doorPrice;
+const getLocation = (show: Show) => show.region && !show.region.toLowerCase().includes(show.city.toLowerCase())
+  ? `${show.city}, ${show.region}`
+  : show.city;
 ---
 
 <div class="show-list-root" data-shows data-show-buffer-days={showBufferDays}>
@@ -50,6 +58,9 @@ const hasShowTooltip = (detail: ShowDisplayItem) => Boolean(detail.tooltip);
         upcomingShows.map((show) => {
           const title = getShowTitle(show);
           const details = getShowDetails(show);
+          const showInfoModal = hasShowInfoModal(show);
+          const setTime = getSetTime(show);
+          const entryFee = getEntryFee(show);
 
           return (
             <article class="show" data-show-card data-show-date={show.date}>
@@ -74,13 +85,34 @@ const hasShowTooltip = (detail: ShowDisplayItem) => Boolean(detail.tooltip);
                     ))}
                   </p>
                 )}
+                {show.detailsComingSoon && <p>More details coming soon</p>}
               </div>
-              {(show.website || show.ticketUrl || show.doorPrice) && (
+              {(showInfoModal || show.website || (!show.unticketed && show.ticketUrl)) && (
                 <div class="show__actions">
-                  {show.website && <a href={show.website} target="_blank" rel="noreferrer">Info</a>}
-                  {show.ticketUrl && <a href={show.ticketUrl} data-hide-past>Tickets</a>}
-                  {show.doorPrice && <span data-hide-past>{show.doorPrice}</span>}
+                  {showInfoModal
+                    ? <button type="button" class="show__info-button" data-show-info-trigger aria-haspopup="dialog">Info</button>
+                    : show.website && <a href={show.website} target="_blank" rel="noreferrer">Info</a>}
+                  {!show.unticketed && show.ticketUrl && <a href={show.ticketUrl} data-hide-past>Tickets</a>}
                 </div>
+              )}
+              {showInfoModal && (
+                <dialog class="show-info-modal" data-show-info-dialog aria-labelledby={`show-info-title-${show.date}`}>
+                  <div class="show-info-modal__content">
+                    <div class="show-info-modal__heading">
+                      <h3 id={`show-info-title-${show.date}`}>Show info</h3>
+                      <button type="button" class="show-info-modal__close" data-show-info-close aria-label="Close show info">×</button>
+                    </div>
+                    <dl>
+                      <div><dt>Date</dt><dd>{dateFormatter.format(getShowDate(show.date))}</dd></div>
+                      <div><dt>Location</dt><dd>{getLocation(show)}</dd></div>
+                      {show.event && <div><dt>Event</dt><dd>{show.event}</dd></div>}
+                      {show.venue && <div><dt>Venue</dt><dd>{show.venue}{show.address && `, ${show.address}`}</dd></div>}
+                      {setTime && <div><dt>Set Time</dt><dd>{setTime}</dd></div>}
+                      {show.unticketed && <div><dt>Tickets</dt><dd>Unticketed Event</dd></div>}
+                      {entryFee !== undefined && <div><dt>Entry Fee</dt><dd>{entryFee}</dd></div>}
+                    </dl>
+                  </div>
+                </dialog>
               )}
             </article>
           );
@@ -123,6 +155,7 @@ const hasShowTooltip = (detail: ShowDisplayItem) => Boolean(detail.tooltip);
                     ))}
                   </p>
                 )}
+                {show.detailsComingSoon && <p>More details coming soon</p>}
               </div>
               {show.website && (
                 <div class="show__actions">
@@ -139,6 +172,18 @@ const hasShowTooltip = (detail: ShowDisplayItem) => Boolean(detail.tooltip);
 
 <script>
   document.querySelectorAll<HTMLElement>('[data-shows]').forEach((showsRoot) => {
+    showsRoot.querySelectorAll<HTMLButtonElement>('[data-show-info-trigger]').forEach((trigger) => {
+      const dialog = trigger.closest<HTMLElement>('[data-show-card]')?.querySelector<HTMLDialogElement>('[data-show-info-dialog]');
+      trigger.addEventListener('click', () => dialog?.showModal());
+    });
+
+    showsRoot.querySelectorAll<HTMLDialogElement>('[data-show-info-dialog]').forEach((dialog) => {
+      dialog.querySelector('[data-show-info-close]')?.addEventListener('click', () => dialog.close());
+      dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+    });
+
     const bufferDays = Number(showsRoot.getAttribute('data-show-buffer-days') || '1');
     const upcomingList = showsRoot.querySelector<HTMLElement>('[data-show-list="upcoming"]');
     const pastList = showsRoot.querySelector<HTMLElement>('[data-show-list="past"]');

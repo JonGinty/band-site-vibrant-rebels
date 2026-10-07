@@ -1,4 +1,4 @@
-export type Show = {
+type ShowDetails = {
   date: string;
   event?: string;
   city: string;
@@ -6,9 +6,36 @@ export type Show = {
   region?: string;
   address?: string;
   website?: string;
-  ticketUrl?: string;
-  doorPrice?: string;
+  /** Show the audience that venue and ticket information will follow. */
+  detailsComingSoon?: boolean;
+  /** Entry price shown in the show details. Use 0 for a free event. */
+  doorPrice?: string | number;
 };
+
+type UnticketedShow =
+  | {
+    /** Tickets are not required. Entry may still have a door price. */
+    unticketed: true;
+    startTime: string;
+    endTime?: string;
+    ticketUrl?: never;
+  }
+  | {
+    unticketed: true;
+    startTime?: never;
+    endTime?: never;
+    ticketUrl?: never;
+  };
+
+export type Show = ShowDetails & (
+  | UnticketedShow
+  | {
+    unticketed?: false;
+    startTime?: never;
+    endTime?: never;
+    ticketUrl?: string;
+  }
+);
 
 export const showBufferDays = 1;
 
@@ -87,6 +114,23 @@ export const shows: Show[] = [
     address: 'Inchberry Hall, Orton, Fochabers, Moray, IV32 7QB',
     website: 'https://www.artsforwellbeingscotland.co.uk/fochabers-music-day/'
   },
+  {
+    date: '2026-11-27',
+    city: 'Edinburgh',
+    region: 'Edinburgh, North East Scotland, UK',
+    venue: 'Stramash',
+    address: '207 Cowgate, Edinburgh, EH1 1JQ',
+    unticketed: true,
+    startTime: '10pm',
+    endTime: 'midnight',
+    doorPrice: 0,
+  },
+  {
+    date: '2026-12-05',
+    city: 'Haddington',
+    region: 'East Lothian, North East Scotland, UK',
+    detailsComingSoon: true,
+  }
 ];
 
 // Prefer the next show, while keeping a show visible for the day after it has happened.
