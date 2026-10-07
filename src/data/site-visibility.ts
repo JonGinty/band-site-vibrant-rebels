@@ -7,7 +7,7 @@ export const publishedSections = {
   gallery: false,
   press: false,
   shows: true,
-  technical: false,
+  technical: true,
 } as const;
 
 export type SiteSection = keyof typeof publishedSections;

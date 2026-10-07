@@ -19,4 +19,8 @@ const members = defineCollection({
   }),
 });
 
-export const collections = { band, members };
+const technical = defineCollection({
+  loader: glob({ pattern: 'vibrant-rebels-technical-rider.md', base: './src/data' }),
+});
+
+export const collections = { band, members, technical };
