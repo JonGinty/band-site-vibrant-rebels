@@ -1580,12 +1580,25 @@ a[data-social="facebook"] {
 }
 
 .technical-rider__content table {
-  width: auto;
-  max-width: 100%;
+  width: max-content;
+  min-width: 100%;
   border-collapse: collapse;
-  margin: 1.5rem auto 2rem;
+  margin: 0 auto;
   border: 2px solid var(--night);
   background: #fffdf5;
+}
+
+.technical-rider__table-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  margin: 1.5rem 0 2rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.technical-rider__table-wrap:focus-visible {
+  outline: 3px solid var(--aqua);
+  outline-offset: 3px;
 }
 
 .technical-rider__content th,

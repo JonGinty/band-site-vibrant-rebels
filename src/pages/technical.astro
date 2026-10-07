@@ -41,6 +41,16 @@ if (!isSectionVisible('technical')) {
   <SiteFooter />
 
   <script>
+    document.querySelectorAll('.technical-rider__content table').forEach((table) => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'technical-rider__table-wrap';
+      wrapper.tabIndex = 0;
+      wrapper.setAttribute('role', 'region');
+      wrapper.setAttribute('aria-label', 'Scrollable technical rider table');
+      table.parentNode?.insertBefore(wrapper, table);
+      wrapper.appendChild(table);
+    });
+
     document.querySelector('[data-print-page]')?.addEventListener('click', () => window.print());
   </script>
 </BaseLayout>

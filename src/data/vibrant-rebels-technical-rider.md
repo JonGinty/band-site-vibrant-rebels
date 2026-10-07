@@ -154,7 +154,7 @@ The band uses several self-managed wireless systems:
 | --- | --- | --- | --- |
 | Jonji | Tenor saxophone | Wireless microphone | 2.4 GHz |
 | Christian | Alto saxophone | Wireless microphone | 2.4 GHz |
-| Matt | Trumpet | Wireless microphone | TBC |
+| Matt | Trumpet | Wireless microphone | 2.4 GHz |
 | Jonji | Acoustic guitar | Wireless guitar system | 5.8 GHz |
 | Jonji | In-ear monitors | Wireless IEM system | UHF |
 | Oz | Vocals | Wireless microphone | TBC |
