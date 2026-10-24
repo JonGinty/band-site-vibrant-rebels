@@ -3,13 +3,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ShowList from '../components/ShowList.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
-import { getShowDate, getShowHighlight, getShowsPreviewVersion, getUpcomingShows } from '../data/shows';
+import { getShowDate, getShowHighlight, getShowsPreviewVersion, getPreviewShows } from '../data/shows';
 
 const shortDateFormatter = new Intl.DateTimeFormat('en-GB', {
   day: '2-digit',
   month: 'short',
 });
-const upcomingShows = getUpcomingShows().slice(0, 2);
+const upcomingShows = getPreviewShows();
 const upcomingShowSummary = upcomingShows
   .map((show) => `${getShowHighlight(show)} · ${shortDateFormatter.format(getShowDate(show.date))}`)
   .join('; ');

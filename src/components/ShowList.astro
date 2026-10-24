@@ -63,7 +63,12 @@ const getLocation = (show: Show) => show.region && !show.region.toLowerCase().in
           const entryFee = getEntryFee(show);
 
           return (
-            <article class="show" data-show-card data-show-date={show.date}>
+            <article class:list={['show', show.status && 'show--has-status']} data-show-card data-show-date={show.date}>
+              {show.status && (
+                <span class:list={['show__status', `show__status--${show.status}`]}>
+                  {show.status === 'cancelled' ? 'Cancelled' : 'Sold out'}
+                </span>
+              )}
               <time datetime={show.date}>{dateFormatter.format(getShowDate(show.date))}</time>
               <div>
                 <h3>
@@ -87,12 +92,12 @@ const getLocation = (show: Show) => show.region && !show.region.toLowerCase().in
                 )}
                 {show.detailsComingSoon && <p>More details coming soon</p>}
               </div>
-              {(showInfoModal || show.website || (!show.unticketed && show.ticketUrl)) && (
+              {(showInfoModal || show.website || (!show.status && !show.unticketed && show.ticketUrl)) && (
                 <div class="show__actions">
                   {showInfoModal
                     ? <button type="button" class="show__info-button" data-show-info-trigger aria-haspopup="dialog">Info</button>
                     : show.website && <a href={show.website} target="_blank" rel="noreferrer">Info</a>}
-                  {!show.unticketed && show.ticketUrl && <a href={show.ticketUrl} data-hide-past>Tickets</a>}
+                  {!show.status && !show.unticketed && show.ticketUrl && <a href={show.ticketUrl} data-hide-past>Tickets</a>}
                 </div>
               )}
               {showInfoModal && (
@@ -133,7 +138,12 @@ const getLocation = (show: Show) => show.region && !show.region.toLowerCase().in
           const details = getShowDetails(show);
 
           return (
-            <article class="show show--past" data-show-card data-show-date={show.date}>
+            <article class:list={['show', 'show--past', show.status && 'show--has-status']} data-show-card data-show-date={show.date}>
+              {show.status && (
+                <span class:list={['show__status', `show__status--${show.status}`]}>
+                  {show.status === 'cancelled' ? 'Cancelled' : 'Sold out'}
+                </span>
+              )}
               <time datetime={show.date}>{dateFormatter.format(getShowDate(show.date))}</time>
               <div>
                 <h3>

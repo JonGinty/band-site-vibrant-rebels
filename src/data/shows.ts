@@ -1,5 +1,7 @@
 type ShowDetails = {
   date: string;
+  /** Keeps the show listed with a banner, but excludes it from social previews. */
+  status?: 'cancelled' | 'sold-out';
   event?: string;
   city: string;
   venue?: string;
@@ -54,9 +56,13 @@ export const getUpcomingShows = (now = new Date()): Show[] => {
     .sort((first, second) => getShowDate(first.date).getTime() - getShowDate(second.date).getTime());
 };
 
+// Filter before limiting so unavailable shows do not leave empty preview slots.
+export const getPreviewShows = (now = new Date()): Show[] =>
+  getUpcomingShows(now).filter((show) => !show.status).slice(0, 2);
+
 // This changes whenever the preview-card content changes, giving social platforms a new image URL.
 export const getShowsPreviewVersion = (now = new Date()): string => {
-  const previewShows = getUpcomingShows(now).slice(0, 2);
+  const previewShows = getPreviewShows(now);
   const signature = previewShows
     .map((show) => [show.date, show.event, show.city, show.venue].filter(Boolean).join('|'))
     .join('~') || 'no-upcoming-shows';
@@ -112,7 +118,8 @@ export const shows: Show[] = [
     region: 'Moray, North East Scotland, UK',
     venue: 'Inchberry Hall',
     address: 'Inchberry Hall, Orton, Fochabers, Moray, IV32 7QB',
-    website: 'https://www.artsforwellbeingscotland.co.uk/fochabers-music-day/'
+    website: 'https://www.artsforwellbeingscotland.co.uk/fochabers-music-day/',
+    status: 'cancelled'
   },
   {
     date: '2026-11-27',

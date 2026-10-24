@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import sharp from 'sharp';
-import { getShowDate, getShowHighlight, getShowsPreviewVersion, getUpcomingShows } from '../../../data/shows';
+import { getShowDate, getShowHighlight, getShowsPreviewVersion, getPreviewShows } from '../../../data/shows';
 
 const width = 1200;
 const height = 630;
@@ -25,7 +25,7 @@ export function getStaticPaths() {
 }
 
 export const GET: APIRoute = async () => {
-  const upcomingShows = getUpcomingShows().slice(0, 2);
+  const upcomingShows = getPreviewShows();
   const logo = await sharp(`${process.cwd()}/public/images/vibrant-rebels-logo-horizontal.png`)
     .resize({ width: 300, height: 68, fit: 'inside' })
     .png()
