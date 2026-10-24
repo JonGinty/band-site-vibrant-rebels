@@ -1581,6 +1581,20 @@ a[data-social="facebook"] {
   margin-top: 0;
 }
 
+.technical-rider__content a {
+  color: var(--violet);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+.technical-rider__content a:hover,
+.technical-rider__content a:focus-visible {
+  color: var(--plum);
+  text-decoration-thickness: 3px;
+}
+
 .technical-rider__content h1 {
   color: var(--plum);
   font-size: clamp(2.6rem, 7vw, 5.5rem);
