@@ -135,7 +135,10 @@ export const shows: Show[] = [
     date: '2026-12-05',
     city: 'Haddington',
     region: 'East Lothian, South East Scotland, UK',
-    detailsComingSoon: true,
+    venue: 'The Railway',
+    address: 'The Railway, 70 Court Street, Haddington, EH41 3AF',
+    ticketUrl: 'https://events.humanitix.com/rockin-aroundtherailway/tickets',
+    website: 'https://events.humanitix.com/rockin-aroundtherailway'
   }
 ];
 
